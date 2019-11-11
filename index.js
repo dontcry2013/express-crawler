@@ -24,6 +24,7 @@ var queryOrder = function(){
 
 
 queryOrder(host, 11).then(function(arr){
+	console.log(123)
     console.log(arr[0], arr[1]);
 });
 
