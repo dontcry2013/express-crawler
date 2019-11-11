@@ -1,0 +1,29 @@
+{
+  "name": "express-crawler",
+  "version": "1.0.0",
+  "description": "An express crawler project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dontcry2013/express-crawler.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "cheerio"
+  ],
+  "author": "Zach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dontcry2013/express-crawler/issues"
+  },
+  "homepage": "https://github.com/dontcry2013/express-crawler#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "dailylog": "0.0.2",
+    "mysql": "^2.17.1"
+  }
+}
