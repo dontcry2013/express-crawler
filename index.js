@@ -44,8 +44,3 @@ queryOrder(host, 11).then(function(arr){
     })
     console.log(obj);
 });
-
-
-
-
-
