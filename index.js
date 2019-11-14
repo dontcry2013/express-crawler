@@ -34,18 +34,30 @@ queryOrder(host, 11).then(function(arr){
             return;
         }
         var uni = $(mTr).find('td:nth-child(2)').text();
-   		if(!obj[uni]){
-                obj[uni] = [];
-         }
-        $(mTr).find('td').each(function(idx2, mTd){
-            var txt = $(mTd).text();
-            obj[uni].push(txt);
-        })
-    })
-    console.log(obj);
-});
-
-
-
-
-
+        
+        if(!obj[uni]){
+             obj[uni] = [];
+      }
+    /* $(mTr).find('td').each(function(idx2, mTd){
+        
+        var major = $(mTr).find('td:nth-child(1)').text();
+        if(!obj[major]){
+            obj[major] = [];
+     }*/
+     $(mTr).find('td').each(function(idx2, mTd){
+        var txt = $(mTd).text();
+         obj[major].push(txt);
+     })
+     
+   
+    /* $('.tbL2 tbody>tr>td:nth-child(1)').each(function(idx1, mTd){
+        var txt = $('.tbL2 tbody>tr>td:nth-child(1)').text();
+        obj[uni].push(txt);
+    })*/
+     $(mTr).find('td').each(function(idx2, mTd){
+        var txt = $(mTd).text();
+         obj[uni].push(obj[major],txt);
+     })
+ })
+ console.log(obj);
+})
