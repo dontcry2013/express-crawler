@@ -2,6 +2,8 @@ var http = require('http');
 var cheerio = require('cheerio');
 var mysql = require('mysql');
 var logger = require('dailylog').getlog({logdir:require('os').homedir()+'/Desktop/log', name:'logjsj'});
+var dbConfig = require('./db_config.js');
+console.log(dbConfig);
 
 // var host = 'http://www.crs.jsj.edu.cn/aproval/localdetail/1535';
 var host = 'http://kaoshi.edu.sina.com.cn/college/scorelist?tab=major&majorid=&wl=&local=19&provid=4&batch=11&syear=2017';
@@ -23,7 +25,30 @@ var queryOrder = function(){
     })
 }
 
+var connection = mysql.createConnection(
+    dbConfig
+);
+    
+connection.connect();
 
+var _db_select = function(sql){
+    // sql is like this: "SELECT 1 + 1 AS solution";
+    connection.query(sql, function (error, results, fields) {
+        if (error) throw error;
+        //in here you can output the results by console.log
+        console.log('The solution is: ', results[0].solution);
+    });
+}
+
+var _db_insert = function(data){
+    // data is like this; {title: 'test'}
+    connection.query('INSERT INTO posts SET ?', data, function (error, results, fields) {
+        if (error) throw error;
+        console.log(results.insertId);
+    });
+}
+
+    
 var obj = {};
 queryOrder(host, 11).then(function(arr){
     // console.log(arr[0], arr[1]);
@@ -44,3 +69,7 @@ queryOrder(host, 11).then(function(arr){
     })
     console.log(obj);
 });
+
+
+// connection.end()
+// process.exit()
