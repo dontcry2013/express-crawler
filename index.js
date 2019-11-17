@@ -1,7 +1,7 @@
 var http = require('http');
 var cheerio = require('cheerio');
 var mysql = require('mysql');
-var logger = require('dailylog').getlog({logdir:require('os').homedir()+'/Desktop/log', name:'logjsj'});
+// var logger = require('dailylog').getlog({logdir:require('os').homedir()+'/Desktop/log', name:'logjsj'});
 var dbConfig = require('./db_config.js');
 console.log(dbConfig);
 
@@ -10,7 +10,7 @@ var host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
 
 var queryOrder = function(){
     var arg = arguments;
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve){
         http.get(arg[0], function(res) {
             var chunks = [];
             res.on('data', function(chunk) {
@@ -33,7 +33,7 @@ connection.connect();
 
 var _db_select = function(sql){
     // sql is like this: "SELECT 1 + 1 AS solution";
-    connection.query(sql, function (error, results, fields) {
+    connection.query(sql, function (error, results, fields = null) {
         if (error) throw error;
         //in here you can output the results by console.log
         console.log('The solution is: ', results[0].solution);
@@ -52,17 +52,19 @@ var _db_insert = function(data){
 var obj = {};
 queryOrder(host, 11).then(function(arr){
     // console.log(arr[0], arr[1]);
-    const $ = cheerio.load(arr[0]);
-    var obj=[]
-    $('body > div.fsx > div.center > div.fsshow.clearfix>div>div.tline > div > table > tbody > tr.tr-cont').each(function(index, div){
-         var level = $(div).find('td:nth-child(1)').text();
-        obj.push(level)
-      
-    })
-    var set = new Set(obj);   
-    var ar = [...set];
-    ar = ar.filter(function(item){
-        return (item != '-' && item != '' & item != ' ')
+    var $ = cheerio.load(arr[0]);
+    $('.tbL2 tbody>tr').each(function(idx1, mTr){
+        if(idx1 == 0){
+            return;
+        }
+        var uni = $(mTr).find('td:nth-child(2)').text();
+   		if(!obj[uni]){
+            obj[uni] = [];
+        }
+        $(mTr).find('td').each(function(idx2, mTd){
+            var txt = $(mTd).text();
+            obj[uni].push(txt);
+        })
     })
         console.log(ar);
      
