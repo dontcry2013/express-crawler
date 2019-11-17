@@ -18,7 +18,7 @@ var queryOrder = function(){
             });
             res.on('end', function() {
                 var buffer = Buffer.concat(chunks);
-                console.log("**********************"+arg[0]+"**********************");
+                console.log('**********************'+arg[0]+'**********************');
                 resolve([buffer.toString(), arg[1]]);
             });
         });
@@ -53,20 +53,20 @@ var obj = {};
 queryOrder(host, 11).then(function(arr){
     // console.log(arr[0], arr[1]);
     var $ = cheerio.load(arr[0]);
-    $('.tbL2 tbody>tr').each(function(idx1, mTr){
-        if(idx1 == 0){
-            return;
-        }
-        var uni = $(mTr).find('td:nth-child(2)').text();
-   		if(!obj[uni]){
-            obj[uni] = [];
-        }
-        $(mTr).find('td').each(function(idx2, mTd){
-            var txt = $(mTd).text();
-            obj[uni].push(txt);
-        })
+    var obj=[]
+    $('body > div.fsx > div.center > div.fsshow.clearfix>div>div.tline > div > table > tbody > tr.tr-cont').each(function(index, div){
+         var level = $(div).find('td:nth-child(1)').text();
+        obj.push(level)
+
     })
-        console.log(ar);
+    var set = new Set(obj);   
+    var ar = [...set];
+    ar = ar.filter(function(item){
+        return (item != '-' && item != '' & item != ' ')
+    })
+
+    console.log(ar);
+
      
 
 });
