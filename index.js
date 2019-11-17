@@ -6,7 +6,7 @@ var dbConfig = require('./db_config.js');
 console.log(dbConfig);
 
 // var host = 'http://www.crs.jsj.edu.cn/aproval/localdetail/1535';
-var host = 'http://kaoshi.edu.sina.com.cn/college/scorelist?tab=major&majorid=&wl=&local=19&provid=4&batch=11&syear=2017';
+var host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
 
 var queryOrder = function(){
     var arg = arguments;
@@ -66,7 +66,9 @@ queryOrder(host, 11).then(function(arr){
             obj[uni].push(txt);
         })
     })
-    console.log(obj);
+        console.log(ar);
+     
+
 });
 
 
