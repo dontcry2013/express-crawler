@@ -4,7 +4,8 @@
   "description": "An express crawler project",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js"
+    "test": "eslint index.js",
+    "go": "node index.js"
   },
   "repository": {
     "type": "git",
