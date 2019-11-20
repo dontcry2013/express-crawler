@@ -1,31 +1,11 @@
-var http = require('http');
 var cheerio = require('cheerio');
-var mysql = require('mysql');
-var logger = require('dailylog').getlog({logdir:require('os').homedir()+'/Desktop/log', name:'logjsj'});
-
+// var logger = require('dailylog').getlog({logdir:require('os').homedir()+'/Desktop/log', name:'logjsj'});
 // var host = 'http://www.crs.jsj.edu.cn/aproval/localdetail/1535';
-var host = 'http://kaoshi.edu.sina.com.cn/college/scorelist?tab=major&majorid=&wl=&local=19&provid=4&batch=11&syear=2017';
+var host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
+var queryOrder = require('./utility/http');
 
-var queryOrder = function(){
-    var arg = arguments;
-    return new Promise(function(resolve, reject){
-        http.get(arg[0], function(res) {
-            var chunks = [];
-            res.on('data', function(chunk) {
-                chunks.push(chunk);
-            });
-            res.on('end', function() {
-                var buffer = Buffer.concat(chunks);
-                console.log("**********************"+arg[0]+"**********************");
-                resolve([buffer.toString(), arg[1]]);
-            });
-        });
-    })
-}
-
-
-var obj = {};
 queryOrder(host, 11).then(function(arr){
+<<<<<<< HEAD
     // console.log(arr[0], arr[1]);
     const $ = cheerio.load(arr[0]);
 
@@ -61,3 +41,20 @@ queryOrder(host, 11).then(function(arr){
  })
  console.log(obj);
 })
+=======
+    var $ = cheerio.load(arr[0]);
+    var obj=[];
+    $('body > div.fsx > div.center > div.fsshow.clearfix>div>div.tline > div > table > tbody > tr.tr-cont').each(function(index, div){
+        var level = $(div).find('td:nth-child(1)').text();
+        obj.push(level);
+    });
+    var set = new Set(obj);   
+    var ar = [...set];
+    ar = ar.filter(function(item){
+        return (item != '-' && item != '' & item != ' ');
+    });
+    console.log(ar);
+});
+
+// process.exit()
+>>>>>>> master
