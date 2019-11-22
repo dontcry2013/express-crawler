@@ -17,3 +17,19 @@ test('test the remove duplicate public function', ()=>{
     expect(arr.length == 3).toEqual(true);
     expect(arr1 == -1).toEqual(true);
 });
+
+test('test the isset function', ()=>{
+    utility.isset(() => some); // false
+
+    // Defining objects
+    let some = { nested: { value: 'hello' } };
+
+    // More tests that never throw an error
+    expect(utility.isset(() => some)).toBe(true); // true
+    expect(utility.isset(() => some.nested)).toBe(true); // true
+    expect(utility.isset(() => some.nested.value)).toBe(true); // true
+    expect(utility.isset(() => some.nested.deeper.value)).toBe(false); // false
+
+    // Less compact but still viable except when trying to use `this` context
+    expect(utility.isset(function () { return some.nested.deeper.value })).toBe(false); // false
+});
