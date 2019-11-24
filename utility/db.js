@@ -13,7 +13,7 @@ class DatabaseUtility{
         var inserts = [columns, table, 'id', mId];
         sql = mysql.format(sql, inserts);
         return sql;
-    };
+    }
 
     query(query_str){
         var self = this;
@@ -25,18 +25,18 @@ class DatabaseUtility{
                 resolve(rows);
             });
         });
-    };
+    }
     
     dbInsert(tableName, insertObj, cb = null){
         this.connection.query('INSERT INTO ?? SET ?', [ tableName, insertObj ], function (error, results) {
             if (error) throw error;
             cb && cb(results.insertId);
         });
-    };
+    }
 
     dbClose(){
         this.connection && this.connection.end();
-    };
+    }
 }
 
 module.exports = DatabaseUtility;
