@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/dontcry2013/express-crawler.git"
   },
+  "engine-strict": {
+    "node": ">=4.0.0"
+  },
   "keywords": [
     "node",
     "express",
