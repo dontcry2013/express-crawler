@@ -7,8 +7,7 @@ class Utility{
         var set = new Set(arr);
         return [...set];
     }
-
-
+    
 
 }
 
