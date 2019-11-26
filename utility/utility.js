@@ -25,6 +25,31 @@ class Utility{
         }
     }
 
+    static getCategory(age) {  
+        var category = '';  
+        switch (true) {  
+        case isNaN(age):  
+            category = 'not an age';  
+            break;  
+        case (age >= 50):  
+            category = 'Old';  
+            break;  
+        case (age <= 20):  
+            category = 'Baby';  
+            break;  
+        default:  
+            category = 'Young';  
+            break;  
+        }
+        return category;  
+    }  
+
+    static escapeHTML(text) {  
+        var replacements= {'<': '&lt;', '>': '&gt;','&': '&amp;', '"': '&quot;'};                      
+        return text.replace(/[<>&"]/g, function(character) {  
+            return replacements[character];  
+        });
+    }
 }
 
 module.exports = Utility;
