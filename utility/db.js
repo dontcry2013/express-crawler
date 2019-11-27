@@ -89,9 +89,11 @@ class DatabaseUtility{
         var self = this;
         promise.then(function(data){
             for(var i = 0; i < data.length; i++){
-                var name = data[i]['chinese_name'];
-                var id = data[i]['id'];
-                self.ProvincesMap[name] = id;
+                if(data[i]){
+                    var name = data[i]['chinese_name'];
+                    var id = data[i]['id'];
+                    self.ProvincesMap[name] = id;
+                }
             }
             console.log(self.ProvincesMap);
         });
