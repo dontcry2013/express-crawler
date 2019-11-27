@@ -3,6 +3,8 @@ var cheerio = require('cheerio');
 // var host = 'http://www.crs.jsj.edu.cn/aproval/localdetail/1535';
 var host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
 var queryOrder = require('./utility/http');
+var utility = require('./utility/utility.js');
+
 
 queryOrder(host, 11).then(function(arr){
     var $ = cheerio.load(arr[0]);
