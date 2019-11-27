@@ -76,6 +76,21 @@ class DatabaseUtility{
         var findData1 = this.query(strQueryProvincesSql);
         return findData1;
     }
+
+    handleGetPromiseOfProvinces(promise){
+        var self = this;
+        promise.then(function(data){
+            for(var i = 0; i < data.length; i++){
+                if(data[i]){    
+                    var name = data[i]['chinese_name'];
+                    var id = data[i]['id'];
+                    self.ProvincesMap[name] = id;
+                }
+            }
+            console.log(self.ProvincesMap);
+        });
+    }
+    
 }
 
 module.exports = DatabaseUtility;
