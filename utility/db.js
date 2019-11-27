@@ -22,6 +22,17 @@ class DatabaseUtility{
     }
 
    
+    query(query_str){
+        var self = this;
+        return new Promise(function(resolve, reject) {
+            self.connection.query(query_str, function (err, rows) {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(rows);
+            });
+        });
+    }
 
     asyncQuery(query_str){
         var self = this;
@@ -51,7 +62,7 @@ class DatabaseUtility{
     //extract admission_level into an object    
     getPromiseOfAdmissionLevel()  {
         var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'],'admission_level');
-        var findData = this.asyncQuery(strQueryAdmissionLevelSql);
+        var findData = this.query(strQueryAdmissionLevelSql);
         return findData;
     }
 
