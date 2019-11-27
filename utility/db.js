@@ -26,6 +26,18 @@ class DatabaseUtility{
             });
         });
     }
+
+    asyncQuery(query_str){
+        var self = this;
+        return new Promise(function(resolve, reject) {
+            self.connection.query(query_str, function (err, rows) {
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(rows);
+            });
+        });
+    }
     
     dbInsert(tableName, insertObj, cb = null){
         this.connection.query('INSERT INTO ?? SET ?', [ tableName, insertObj ], function (error, results) {
@@ -35,7 +47,7 @@ class DatabaseUtility{
     }
 
     dbClose(){
-        this.connection && this.connection.end();
+        this.connection.end();
     }
 }
 

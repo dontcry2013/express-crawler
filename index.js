@@ -18,22 +18,27 @@ for(var j=1;j<7;j++){//每一个省份都有六年的数据，并且六个表的
         var level=0;
         trs.each((ii, vv)=>{  //第三层循环遍历（除了表头）tr(每一行)
             $(vv).find('td').each((iii, vvv)=>{ //第四层循环遍历一行中的每一个td
+            
+            //过滤所有的无用数据
+            if($(vvv).text()!="-"&&$(vvv).text()!=""&&$(vvv).text()!=" "&&/点击查看/.test($(vvv).text())==false){
             if(iii==0){//如果索引为0则值为批次存进变量level中
-                level=utility.getLevel(iii,vvv);
+                level=$(vvv).text();              
+                }
+            if(j<4&&(PriID=='上海'||PriID=='浙江')){//特殊处理2019-2017上海和浙江的分数
+                if(iii>0)
+                    if($(vvv).text()!='分数线'&&$(vvv).text()!='综合'){
+                    result.push(utility.specialPush(PriID,year,level,iii,vvv));//将一个得到的每一条数据存入数组中
+                   }
+                }
+            else{
+                if(iii>0)//当iii不为0是则将前面所得的数据存入一个数组中            
+                    //获取分数和文（理）科
+                    result.push(utility.pushScoreAndDivision(PriID,year,level,iii,vvv));//将一个得到的每一条数据存入数组中                      
+                }
             }
-            if(iii>0){ //当iii不为0是则将前面所得的数据存入一个数组中
-            var record=[];  
-            record.push(PriID);
-            record.push(year);  
-            utility.pushScoreAndDivision(iii,vvv,record);//获取分数和文（理）科
-            record.push(level);
-            result.push(record);//将一个得到的每一条数据存入数组中
-            }
-                
             })
          }) 
-        })
-        
+        })   
     }
     console.log(result);//获得所有的数据（一个二维数组）
 })
