@@ -19,19 +19,21 @@ class DatabaseUtility{
         var inserts = [columns, table];
         sql = mysql.format(sql, inserts);
         return sql;
-    };
+    }
 
-    query(query_str){
+   
+
+    asyncQuery(query_str){
         var self = this;
         return new Promise(function(resolve, reject) {
             self.connection.query(query_str, function (err, rows) {
                 if (err) {
                     return reject(err);
                 }
-                resolve(rows);
+                return resolve(rows);
             });
         });
-    };
+    }
     
     
     dbInsert(tableName, insertObj, cb = null){
@@ -39,17 +41,17 @@ class DatabaseUtility{
             if (error) throw error;
             cb && cb(results.insertId);
         });
-    };
+    }
 
     dbClose(){
         this.connection && this.connection.end();
-    };
+    }
 
     
     //extract admission_level into an object    
     getPromiseOfAdmissionLevel()  {
         var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'],'admission_level');
-        var findData = this.query(strQueryAdmissionLevelSql);
+        var findData = this.asyncQuery(strQueryAdmissionLevelSql);
         return findData;
     }
 
@@ -84,6 +86,8 @@ class DatabaseUtility{
     }
     
 }
+
+
 
             
 

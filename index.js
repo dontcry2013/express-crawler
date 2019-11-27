@@ -39,10 +39,10 @@ event.on('some_event', function() {
 
 console.log('我正在读取数据库，准备需要的数据');
 var db = new DatabaseUtility();
-admissionLevelPromise = db.getPromiseOfAdmissionLevel();
+var admissionLevelPromise = db.getPromiseOfAdmissionLevel();
 db.handleGetPromiseOfAdmissionLevel(admissionLevelPromise);
 
-provincesPromise = db.getPromiseOfProvinces();
+var provincesPromise = db.getPromiseOfProvinces();
 db.handleGetPromiseOfProvinces(provincesPromise);
 
 event.emit('some_event'); 
