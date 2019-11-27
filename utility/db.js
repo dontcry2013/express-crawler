@@ -77,7 +77,8 @@ class DatabaseUtility{
             console.log(self.admissionLevelMap);
         });
     }
-        
+    
+    //extract provinces into an object
     getPromiseOfProvinces()  {
         var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'],'provinces');
         var findData1 = this.query(strQueryProvincesSql);
