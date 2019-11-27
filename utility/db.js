@@ -47,8 +47,50 @@ class DatabaseUtility{
     }
 
     dbClose(){
-        this.connection.end();
+        this.connection && this.connection.end();
     }
+
+    
+    //extract admission_level into an object    
+    getPromiseOfAdmissionLevel()  {
+        var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'],'admission_level');
+        var findData = this.query(strQueryAdmissionLevelSql);
+        return findData;
+    }
+
+    handleGetPromiseOfAdmissionLevel(promise){
+        var self = this;
+        promise.then(function(data){
+            for(var i = 0; i < data.length; i++){
+                var name = data[i]['name'];
+                var id = data[i]['id'];
+                self.admissionLevelMap[name] = id;
+            }
+            console.log(self.admissionLevelMap);
+        });
+    }
+    
+    //extract provinces into an object
+    getPromiseOfProvinces()  {
+        var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'],'provinces');
+        var findData1 = this.query(strQueryProvincesSql);
+        return findData1;
+    }
+
+    handleGetPromiseOfProvinces(promise){
+        var self = this;
+        promise.then(function(data){
+            for(var i = 0; i < data.length; i++){
+                if(data[i]){    
+                    var name = data[i]['chinese_name'];
+                    var id = data[i]['id'];
+                    self.ProvincesMap[name] = id;
+                }
+            }
+            console.log(self.ProvincesMap);
+        });
+    }
+    
 }
 
 module.exports = DatabaseUtility;
