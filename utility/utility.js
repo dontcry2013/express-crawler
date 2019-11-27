@@ -60,7 +60,6 @@ class Utility{
         return record;                  
     }
     
-    //测试
     static getCategory(age) {  
         var category = '';  
         switch (true) {  

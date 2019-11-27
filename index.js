@@ -30,7 +30,7 @@ for(var j=1;j<7;j++){//每一个省份都有六年的数据，并且六个表的
                     result.push(utility.specialPush(PriID,year,level,iii,vvv));//将一个得到的每一条数据存入数组中
                    }
                 }
-            else{
+            else{//处理文理分科的表
                 if(iii>0)//当iii不为0是则将前面所得的数据存入一个数组中            
                     //获取分数和文（理）科
                     result.push(utility.pushScoreAndDivision(PriID,year,level,iii,vvv));//将一个得到的每一条数据存入数组中                      
