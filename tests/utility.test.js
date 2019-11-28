@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const queryOrder = require('../utility/http');
 const utility = require('../utility/utility');
+
 const host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
 test.skip('test http get', () => {
     expect.assertions(1);
@@ -35,4 +36,8 @@ test('test the isset function', ()=>{
     // Less compact but still viable except when trying to use `this` context
     expect(utility.isset(function () { return some.nested.deeper.value })).toBe(false); // false
 });
+<<<<<<< HEAD
 >>>>>>> 8656577c3c8cbef57fedeb08cb5e6013064375b2
+=======
+
+>>>>>>> 993c0eaa04d4dcfe220a077da3d720296e7b3d98

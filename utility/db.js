@@ -7,6 +7,7 @@ class DatabaseUtility{
         );
         this.connection.connect();
         this.admissionLevelMap = {};
+<<<<<<< HEAD
         this.ProvincesMap = {};
     }
 
@@ -17,6 +18,18 @@ class DatabaseUtility{
         }
         
         var inserts = [columns, table];
+=======
+        this.provincesMap = {};
+    }
+
+    static prepare(columns = '*', table = 'users', mId){
+        var sql = 'SELECT ?? FROM ??';
+        var inserts = [columns, table];
+        if(mId){
+            sql += ' WHERE ?? = ?';
+            inserts.push(...['id', mId]);
+        }
+>>>>>>> 993c0eaa04d4dcfe220a077da3d720296e7b3d98
         sql = mysql.format(sql, inserts);
         return sql;
     }
@@ -56,6 +69,7 @@ class DatabaseUtility{
 
     dbClose(){
         this.connection && this.connection.end();
+<<<<<<< HEAD
     }
 
     
@@ -88,14 +102,57 @@ class DatabaseUtility{
     handleGetPromiseOfProvinces(promise){
         var self = this;
         promise.then(function(data){
+=======
+    }
+
+    
+    //extract admission_level into an object    
+    getPromiseOfAdmissionLevel()  {
+        var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'],'admission_level');
+        var findData = this.query(strQueryAdmissionLevelSql);
+        return findData;
+    }
+
+    async handleGetPromiseOfAdmissionLevel(promise){
+        var self = this;
+        return await promise.then(function(data){
+            for(var i = 0; i < data.length; i++){
+                if(data[i]){
+                    var name = data[i]['name'];
+                    var id = data[i]['id'];
+                    self.admissionLevelMap[name] = id;
+                }
+            }
+            return self.admissionLevelMap;
+        });
+    }
+    
+    //extract provinces into an object
+    getPromiseOfProvinces()  {
+        var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'], 'provinces');
+        var findData = this.query(strQueryProvincesSql);
+        return findData;
+    }
+
+    async handleGetPromiseOfProvinces(promise){
+        var self = this;
+        return await promise.then(function(data){
+>>>>>>> 993c0eaa04d4dcfe220a077da3d720296e7b3d98
             for(var i = 0; i < data.length; i++){
                 if(data[i]){
                     var name = data[i]['chinese_name'];
                     var id = data[i]['id'];
+<<<<<<< HEAD
                     self.ProvincesMap[name] = id;
                 }
             }
             console.log(self.ProvincesMap);
+=======
+                    self.provincesMap[name] = id;
+                }
+            }
+            return self.provincesMap;
+>>>>>>> 993c0eaa04d4dcfe220a077da3d720296e7b3d98
         });
     }
     
