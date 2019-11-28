@@ -4,27 +4,23 @@ const data = require('../testdata.js');
 class Utility{
     
     //查找省份  输入：V= <div class="fsshowli" id="bj">...</div> 输出（返回）：北京
-   static getPriId(v){
+    static getPriId(v){
         var $ = cheerio.load(data);
         var pri=$(v).find('.city').text();
         try{
             var cityValue=/市/;
             var priValue=/省/;
-            if(cityValue.test(pri)||priValue.test(pri))
-                throw new Error('format error')
+            if(cityValue.test(pri)||priValue.test(pri)){
+                throw new Error('format error');
+            }
         }catch (error){
-            console.error("The format of privince is not expected");
+            console.error('The format of privince is not expected');
         }
-      //  $.each(privince,function(key,value){
-		//if (key==pri)
-      //  record.push(value);//与map连接
-
-       // })
-       return pri;
+        return pri;
     }
     
     //获取年份 例：输入：j=1 输出（返回）：2019
-   static getYear(j){
+    static getYear(j){
         var $ = cheerio.load(data);
         var year=$('#bj>div.sline.clearfix > div:nth-child('+j+')').text();
         year=parseInt(year.substr(0,year.length-1));//除去‘年’字
