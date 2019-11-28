@@ -6,11 +6,17 @@ class DatabaseUtility{
             dbConfig
         );
         this.connection.connect();
+        this.admissionLevelMap = {};
+        this.provincesMap = {};
     }
 
-    static prepare(columns = '*', table = 'users', mId = 1){
-        var sql = 'SELECT ?? FROM ?? WHERE ?? = ?';
-        var inserts = [columns, table, 'id', mId];
+    static prepare(columns = '*', table = 'users', mId){
+        var sql = 'SELECT ?? FROM ??';
+        var inserts = [columns, table];
+        if(mId){
+            sql += ' WHERE ?? = ?';
+            inserts.push(...['id', mId]);
+        }
         sql = mysql.format(sql, inserts);
         return sql;
     }
@@ -58,36 +64,38 @@ class DatabaseUtility{
         return findData;
     }
 
-    handleGetPromiseOfAdmissionLevel(promise){
+    async handleGetPromiseOfAdmissionLevel(promise){
         var self = this;
-        promise.then(function(data){
+        return await promise.then(function(data){
             for(var i = 0; i < data.length; i++){
-                var name = data[i]['name'];
-                var id = data[i]['id'];
-                self.admissionLevelMap[name] = id;
+                if(data[i]){
+                    var name = data[i]['name'];
+                    var id = data[i]['id'];
+                    self.admissionLevelMap[name] = id;
+                }
             }
-            console.log(self.admissionLevelMap);
+            return self.admissionLevelMap;
         });
     }
     
     //extract provinces into an object
     getPromiseOfProvinces()  {
-        var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'],'provinces');
-        var findData1 = this.query(strQueryProvincesSql);
-        return findData1;
+        var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'], 'provinces');
+        var findData = this.query(strQueryProvincesSql);
+        return findData;
     }
 
-    handleGetPromiseOfProvinces(promise){
+    async handleGetPromiseOfProvinces(promise){
         var self = this;
-        promise.then(function(data){
+        return await promise.then(function(data){
             for(var i = 0; i < data.length; i++){
-                if(data[i]){    
+                if(data[i]){
                     var name = data[i]['chinese_name'];
                     var id = data[i]['id'];
-                    self.ProvincesMap[name] = id;
+                    self.provincesMap[name] = id;
                 }
             }
-            console.log(self.ProvincesMap);
+            return self.provincesMap;
         });
     }
     
