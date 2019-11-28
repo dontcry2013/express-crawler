@@ -17,8 +17,6 @@ test('test the remove duplicate public function', ()=>{
     expect(arr.length == 3).toEqual(true);
     expect(arr1 == -1).toEqual(true);
 });
-<<<<<<< HEAD
-=======
 
 test('test the isset function', ()=>{
     utility.isset(() => some); // false
@@ -35,4 +33,3 @@ test('test the isset function', ()=>{
     // Less compact but still viable except when trying to use `this` context
     expect(utility.isset(function () { return some.nested.deeper.value })).toBe(false); // false
 });
->>>>>>> 8656577c3c8cbef57fedeb08cb5e6013064375b2
