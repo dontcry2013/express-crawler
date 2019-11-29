@@ -9,3 +9,12 @@ test.skip('test http get', () => {
         expect(len > 0).toEqual(true);
     });
 });
+test('test the getProvObj public function',()=>{
+var obj=utility.getProvObj();
+expect(arr.length == 3).toEqual(true);
+});
+
+test('test the getProvID public function',()=>{
+    var obj= utility.getProvID();
+    expect(arr.length == 3).toEqual(true);
+    });

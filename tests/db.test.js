@@ -11,3 +11,5 @@ test('mysql select test', () => {
         expect(result[0]['1+1'] == 2).toEqual(true);
     }).catch((err) => setImmediate(() => { throw err }));
 });
+
+//step3: databae operations. Test whether a specific record is in table.
