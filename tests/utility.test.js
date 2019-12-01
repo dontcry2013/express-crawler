@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const queryOrder = require('../utility/http');
 const utility = require('../utility/utility');
 const host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
+
 test.skip('test http get', () => {
     expect.assertions(1);
     return queryOrder(host).then(data => {
