@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const queryOrder = require('../utility/http');
 const utility = require('../utility/utility');
 const testdata=require('../testdata.js');
+const db_test=require('./db.test');
 var $=cheerio.load(testdata);
 
 const host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
@@ -20,6 +21,11 @@ test('test the function for get year',()=>{
     expect(year==2019).toEqual(true);
     }
 });
+
+test('test the function for get privince ID',()=>{
+    var priID=utility.getPriId($('#bj'),db_test.priMap);
+    expect(priID==3).toEqual(true);
+})
 
 
 /*test('test the remove duplicate public function', ()=>{

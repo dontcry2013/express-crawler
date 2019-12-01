@@ -25,9 +25,14 @@ event.on('DB data prepared', function() {
         var result=[];
         //console.log(priMap);
         for(var j=1;j<7;j++){//每一个省份都有六年的数据，并且六个表的其实selector是从1开始的，所以循环六次
-            $('.fsshowli').each((i, v)=>{//第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表    
-                var PriID=utility.getPriId(v,priMap);
-                var year=utility.getYear(j);// 调用函数获得省份和年份
+            $('.fsshowli').each((i, v)=>{//第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表  
+                try{  
+                    var provinceName = $(v).find('.city').text();
+                }catch (error){
+                    console.error('The format of privince is not expected');
+                }
+                var PriID = utility.getProvinceId(provinceName, priMap);
+                var year = utility.getYear(j);// 调用函数获得省份和年份
                 var trs =$(v).find('div.tline > div:nth-child('+j+')>table .tr-cont')//得到六个表中其中一个的所有tr
                 var level;
                 trs.each((ii, vv)=>{  //第三层循环遍历（除了表头）tr(每一行)
@@ -70,7 +75,7 @@ event.on('DB data prepared', function() {
     await db.handleGetPromiseOfProvinces(provincesPromise);
     priMap=db.provincesMap;
     levelMap=db.admissionLevelMap;
-    console.log(db.admissionLevelMap, db.provincesMap);
+    //console.log(db.admissionLevelMap, db.provincesMap);
     event.emit('DB data prepared'); 
 })();
 
