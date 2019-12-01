@@ -25,6 +25,7 @@ event.on('DB data prepared', function() {
         var result=[];
         //console.log(priMap);
         for(var j=1;j<7;j++){//每一个省份都有六年的数据，并且六个表的其实selector是从1开始的，所以循环六次
+<<<<<<< HEAD
             $('.fsshowli').each((i, v)=>{//第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表  
                 try{  
                     var provinceName = $(v).find('.city').text();
@@ -33,6 +34,11 @@ event.on('DB data prepared', function() {
                 }
                 var PriID = utility.getProvinceId(provinceName, priMap);
                 var year = utility.getYear(j);// 调用函数获得省份和年份
+=======
+            $('.fsshowli').each((i, v)=>{//第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表    
+                var PriID=utility.getPriId(v,priMap);
+                var year=utility.getYear(j);// 调用函数获得省份和年份
+>>>>>>> 7d41d6ebf6aacb41d92f8dd9abf033354320fb46
                 var trs =$(v).find('div.tline > div:nth-child('+j+')>table .tr-cont')//得到六个表中其中一个的所有tr
                 var level;
                 trs.each((ii, vv)=>{  //第三层循环遍历（除了表头）tr(每一行)
@@ -75,7 +81,21 @@ event.on('DB data prepared', function() {
     await db.handleGetPromiseOfProvinces(provincesPromise);
     priMap=db.provincesMap;
     levelMap=db.admissionLevelMap;
+<<<<<<< HEAD
     //console.log(db.admissionLevelMap, db.provincesMap);
+=======
+    console.log(db.admissionLevelMap, db.provincesMap);
+>>>>>>> 7d41d6ebf6aacb41d92f8dd9abf033354320fb46
     event.emit('DB data prepared'); 
 })();
 
+// process.exit()
+
+
+//step1: 遍历数据库中provience表，返回对象，包含各省ID和名称。
+
+//step2: 遍历每个省每一年下的所有行。遍历各省，输入各省的dom, 比对网页中的省份名称和step1对象，输出省份ID。
+  //遍历各年，输出年份。遍历每一行，push proID and year into record, 拆分出批次、文理科成绩，push into record. 
+  //Store records into two-dimension array.
+
+//step3: 二位数组一次性插入数据库。输入二维数组。没有返回值。

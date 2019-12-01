@@ -3,6 +3,7 @@ const data = require('../testdata.js');
 
 class Utility{
     
+<<<<<<< HEAD
     //查找省份  输入：V= <div class="fsshowli" id="bj">...</div> 输出（返回）：3
     static getProvinceId(provinceName, map){
         var cityValue = /市/;
@@ -11,6 +12,27 @@ class Utility{
             throw new Error('format error');
         }
         return map[provinceName];
+=======
+    //查找省份  输入：V= <div class="fsshowli" id="bj">...</div> 输出（返回）：北京
+    static getPriId(v,map){
+        var $ = cheerio.load(data);
+        var pri=$(v).find('.city').text();
+        try{
+            var cityValue=/市/;
+            var priValue=/省/;
+            if(cityValue.test(pri)||priValue.test(pri)){
+                throw new Error('format error');
+            }
+        }catch (error){
+            console.error('The format of privince is not expected');
+        }
+        for(var i in map) {
+            if (i==pri){
+                return parseInt(map[i]); 
+            }    
+       }
+        
+>>>>>>> 7d41d6ebf6aacb41d92f8dd9abf033354320fb46
     }
     
     //获取年份 例：输入：j=1 输出（返回）：2019
@@ -44,7 +66,11 @@ class Utility{
     //获取分数及文科或者理科 例：输入： iii=1,vvv=480，record={北京，2019} 输出：record{北京，2019,480，art}
     static  pushScoreAndDivision(PriID,year,level,iii,vvv){
         var $ = cheerio.load(data);
+<<<<<<< HEAD
         var score=parseInt($(vvv).text().substr(0,3));
+=======
+        var score=$(vvv).text().substr(0,3);
+>>>>>>> 7d41d6ebf6aacb41d92f8dd9abf033354320fb46
         var record=[];
         record.push(PriID);
         record.push(year);  

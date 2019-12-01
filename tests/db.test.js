@@ -35,6 +35,7 @@ test('mysql select test', (done) => {
     }).catch((err) => setImmediate(() => { throw err }));
 });
 
+//step3: databae operations. Test whether a specific record is in table.
 test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {
     try {
         var test = await db.asyncQuery('select 1+1');
