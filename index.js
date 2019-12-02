@@ -8,8 +8,6 @@ var queryOrder = require(global.appRoot + '/utility/http');
 const DatabaseUtility = require(global.appRoot + '/utility/db');
 const utility = require(global.appRoot + '/utility/utility');
 
-
-
 var EventEmitter = require('events').EventEmitter; 
 var event = new EventEmitter(); 
 var db = new DatabaseUtility();

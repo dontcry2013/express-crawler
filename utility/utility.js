@@ -68,6 +68,7 @@ class Utility{
         record.push(level);
         return record;                  
     }
+<<<<<<< HEAD
     
     static getCategory(age) {  
         var category = '';  
@@ -94,6 +95,32 @@ class Utility{
             return replacements[character];  
         });
     }
+=======
+
+    //将获取的数据分别插入result数组中
+    static pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result){//获取每一条记录
+        if(j < 4 && (provinceID=='25'|| provinceID=='35')){//特殊处理2019-2017上海和浙江的分数
+            if(tdsValue!='分数线' && tdsValue!='综合'){//清理上海和浙江表中的无用数据
+                result.push(this.specialRecord(provinceID, year, level, tdsValue));//将一个得到的每一条数据存入数组中
+            }
+        }
+        else{//获取分了文理科的城市的年份的分数和文（理）科     
+            result.push(this.recordScore(provinceID, year, level, iii, tdsValue));//将一个得到的每一条数据存入数组中                      
+        }
+       return result;
+    }
+
+    //过滤分数格式不正确的记录
+    static getFiltteringData(j, provinceID, year, level, iii, tdsValue, result){
+        var test=1;
+        if(tdsValue!='-' && tdsValue!='' && tdsValue!=' ' && /点击查看/.test(tdsValue)==false){                                             
+                return(this.pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result));
+        }
+        else
+            return test;
+    }
+    
+>>>>>>> 423ef09... add test and optimize the code
 }
 
 
