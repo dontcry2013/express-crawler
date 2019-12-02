@@ -68,34 +68,6 @@ class Utility{
         record.push(level);
         return record;                  
     }
-<<<<<<< HEAD
-    
-    static getCategory(age) {  
-        var category = '';  
-        switch (true) {  
-        case isNaN(age):  
-            category = 'not an age';  
-            break;  
-        case (age >= 50):  
-            category = 'Old';  
-            break;  
-        case (age <= 20):  
-            category = 'Baby';  
-            break;  
-        default:  
-            category = 'Young';  
-            break;  
-        }
-        return category;  
-    }  
-
-    static escapeHTML(text) {  
-        var replacements= {'<': '&lt;', '>': '&gt;','&': '&amp;', '"': '&quot;'};                      
-        return text.replace(/[<>&"]/g, function(character) {  
-            return replacements[character];  
-        });
-    }
-=======
 
     //将获取的数据分别插入result数组中
     static pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result){//获取每一条记录
@@ -120,7 +92,6 @@ class Utility{
             return test;
     }
     
->>>>>>> 423ef09... add test and optimize the code
 }
 
 
