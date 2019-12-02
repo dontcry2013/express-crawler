@@ -1,7 +1,28 @@
-const DB = require('../utility/db');
-var db = new DB();
+const DatabaseUtility = require('../utility/db');
 
-test('mysql select prepare', () => {
+var EventEmitter = require('events').EventEmitter; 
+var event = new EventEmitter(); 
+var db = new DatabaseUtility();
+var priMap={};
+var levelMap={};
+
+event.on('DB data prepared', function() { 
+        process.exit();
+}); 
+
+(async ()=>{
+    console.log('我正在读取数据库，准备需要的数据');
+    
+    var admissionLevelPromise = db.getPromiseOfAdmissionLevel();
+    await db.handleGetPromiseOfAdmissionLevel(admissionLevelPromise);    
+    var provincesPromise = db.getPromiseOfProvinces();
+    await db.handleGetPromiseOfProvinces(provincesPromise);
+    priMap=db.provincesMap;
+    levelMap=db.admissionLevelMap;
+    event.emit('DB data prepared'); 
+})();
+
+/*test('mysql select prepare', () => {
     expect(DB.prepare()).toBe('SELECT `*` FROM `users`');
     expect(DB.prepare(['id', 'name'], 'level', 100)).toBe('SELECT `id`, `name` FROM `level` WHERE `id` = 100');
 });
@@ -42,7 +63,7 @@ test('should get the admission level map', async (done) => {
         console.error(error.message);
     }
 });
-
+*/
 
 afterAll(() => {
     db.dbClose();
