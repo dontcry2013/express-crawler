@@ -22,7 +22,7 @@ class DatabaseUtility{
     }
 
    
-    query(query_str){
+    query1(query_str){
         var self = this;
         return new Promise(function(resolve, reject) {
             self.connection.query(query_str, function (err, rows) {
@@ -47,10 +47,20 @@ class DatabaseUtility{
     }
     
     
-    dbInsert(tableName, insertObj, cb = null){
-        this.connection.query('INSERT INTO ?? SET ?', [ tableName, insertObj ], function (error, results) {
-            if (error) throw error;
-            cb && cb(results.insertId);
+
+    dbInsert (data,err){
+        var self= this;
+        if (err) throw err;
+        console.log('Connected!');
+        var values = data;
+        var sql = 'INSERT INTO ncee_fraction_lines(province_id,year,score,art_science_division,level) VALUES ?';
+        self.connection.query(sql, [values], function (err, result) {
+            if(err){
+                console.log('INSERT ERROR - ', err.message);
+                return;
+            }
+            console.log('INSERT SUCCESS');
+        
         });
     }
 
@@ -62,7 +72,7 @@ class DatabaseUtility{
     //extract admission_level into an object    
     getPromiseOfAdmissionLevel()  {
         var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'],'admission_level');
-        var findData = this.query(strQueryAdmissionLevelSql);
+        var findData = this.query1(strQueryAdmissionLevelSql);
         return findData;
     }
 
@@ -83,7 +93,7 @@ class DatabaseUtility{
     //extract provinces into an object
     getPromiseOfProvinces()  {
         var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'], 'provinces');
-        var findData = this.query(strQueryProvincesSql);
+        var findData = this.query1(strQueryProvincesSql);
         return findData;
     }
 

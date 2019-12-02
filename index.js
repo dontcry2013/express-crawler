@@ -28,7 +28,7 @@ event.on('DB data prepared', function() {
             $('.fsshowli').each((i, v)=>{//第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表    
                 var PriID=utility.getPriId(v,priMap);
                 var year=utility.getYear(j);// 调用函数获得省份和年份
-                var trs =$(v).find('div.tline > div:nth-child('+j+')>table .tr-cont')//得到六个表中其中一个的所有tr
+                var trs =$(v).find('div.tline > div:nth-child('+j+')>table .tr-cont');//得到六个表中其中一个的所有tr
                 var level;
                 trs.each((ii, vv)=>{  //第三层循环遍历（除了表头）tr(每一行)
                     $(vv).find('td').each((iii, vvv)=>{ //第四层循环遍历一行中的每一个td
@@ -48,15 +48,16 @@ event.on('DB data prepared', function() {
                                 if(iii>0){//当iii不为0是则将前面所得的数据存入一个数组中            
                                     //获取分数和文（理）科
                                     result.push(utility.pushScoreAndDivision(PriID,year,level,iii,vvv));//将一个得到的每一条数据存入数组中                      
-                               }
+                                }
                             }
                         }
                     });
                 }); 
             });  
         }
-         console.log(result);
-       //获得所有的数据（一个二维数组）
+        console.log(result);
+        //获得所有的数据（一个二维数组）
+        db.dbInsert(result);
     });
     
 }); 
@@ -80,7 +81,7 @@ event.on('DB data prepared', function() {
 //step1: 遍历数据库中provience表，返回对象，包含各省ID和名称。
 
 //step2: 遍历每个省每一年下的所有行。遍历各省，输入各省的dom, 比对网页中的省份名称和step1对象，输出省份ID。
-  //遍历各年，输出年份。遍历每一行，push proID and year into record, 拆分出批次、文理科成绩，push into record. 
-  //Store records into two-dimension array.
+//遍历各年，输出年份。遍历每一行，push proID and year into record, 拆分出批次、文理科成绩，push into record. 
+//Store records into two-dimension array.
 
 //step3: 二位数组一次性插入数据库。输入二维数组。没有返回值。
