@@ -51,10 +51,8 @@ test.skip('test http get', () => {
 });
 
 test('test the function for get year',()=>{
-    for(var i = 1; i < 7; i++){
     var year = utility.getYear($, 1);
     expect(year==2019).toEqual(true);
-    }
 });
 
 test('test the function for getting province ID',()=>{
