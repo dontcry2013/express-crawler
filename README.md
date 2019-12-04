@@ -23,4 +23,5 @@ Evidence supports that the admission requirements for chinese highschool graduat
 <ul><li>Codes to crawl data from web pages</li>
     <li>Database to store and process data</li>
     <li>Webpages to present information</li>
+    <li>Document the flow of development, including timeline and git commands, workflow guideline, different role has different procedure, collaborator and forker.</li>
 </ul>

@@ -1,5 +1,26 @@
-const DB = require('../utility/db');
-var db = new DB();
+const DatabaseUtility = require('../utility/db');
+
+var EventEmitter = require('events').EventEmitter; 
+var event = new EventEmitter(); 
+var db = new DatabaseUtility();
+var priMap={};
+var levelMap={};
+
+event.on('DB data prepared', function() { 
+        process.exit();
+}); 
+
+(async ()=>{
+    console.log('我正在读取数据库，准备需要的数据');
+    
+    var admissionLevelPromise = db.getPromiseOfAdmissionLevel();
+    await db.handleGetPromiseOfAdmissionLevel(admissionLevelPromise);    
+    var provincesPromise = db.getPromiseOfProvinces();
+    await db.handleGetPromiseOfProvinces(provincesPromise);
+    priMap=db.provincesMap;
+    levelMap=db.admissionLevelMap;
+    event.emit('DB data prepared'); 
+})();
 
 test('mysql select prepare', () => {
     expect(DB.prepare()).toBe('SELECT `*` FROM `users`');
@@ -42,7 +63,9 @@ test('mysql provinces select test', () => {
         console.log(44, provinces);
         expect(provinces['北京']).toEqual(3);
     });
+}
 //step3: databae operations. Test whether a specific record is in table.
+
 test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {
     try {
         var test = await db.asyncQuery('select 1+1');
@@ -51,7 +74,7 @@ test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {
         done();
     } catch (error) {
         expect(error.message).toBe('User with id: 11 was not found.');
-    }
+   }
 });
 
 // a demo for Lauren
@@ -72,6 +95,22 @@ test('should get the admission level map', async (done) => {
 });
 
 
+test('test the insert data', async (done) => {
+    try {
+        var admissionLevelPromise = db.getPromiseOfAdmissionLevel();
+        await db.handleGetPromiseOfAdmissionLevel(admissionLevelPromise);
+        console.log(db.admissionLevelMap);
+        expect(db.admissionLevelMap['3','2019','art','3']).toBe(335);
+        expect(db.admissionLevelMap['三批']).toBe(11);
+        expect(db.admissionLevelMap['第三批']).toBe(60);
+        expect(db.admissionLevelMap['二批B']).toBe(89);
+        expect(db.admissionLevelMap['牛奶']).toBe(undefined);
+        done();
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 afterAll(() => {
-    db.dbClose();
+  db.dbClose();
 });
