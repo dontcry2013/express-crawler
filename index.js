@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-loop-func */
+/* eslint-disable linebreak-style */
 const path = require('path');
 
 global.appRoot = path.resolve(__dirname);
@@ -16,62 +19,66 @@ const { EventEmitter } = require('events');
 
 const event = new EventEmitter();
 const db = new DatabaseUtility();
-
 let provinceMap = {};
 let levelMap = {};
-
 event.on('DB data prepared', () => {
-  console.log('数据准备完成，可以进行下一步操作');
+  console.log('The data is ready for the next step');
   // some code from Rachel
   queryOrder(host, 11).then((arr) => {
     const $ = cheerio.load(arr[0]);
     const result = [];
-    for (var j = 1;j < 7; j++){// 每一个省份都有六年的数据，并且六个表的其实selector是从1开始的，所以循环六次
-			$('.fsshowli').each((_i, v)=>{// 第二层循环 遍历每一个省份的六个表，并获得其中一个省份的表                
-				try{  
-						var provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);  
-				}catch (error){
-						console.error('The format of privince is not expected');
-				}
-				var year = utility.getYear($,j);
-				var trs = $(v).find('div.tline > div:nth-child('+j+')>table .tr-cont')//得到六个表中其中一个的所有tr
-				var level;
-				trs.each((ii, vv)=>{  //第三层循环遍历（除了表头）tr(每一行)                    
-						$(vv).find('td').each((iii, vvv)=>{ //第四层循环遍历一行中的每一个td
-								//过滤所有的无用数据
-								var tdsValue = $(vvv).text();                
-								if(iii==0){//如果索引为0则值为批次存进变量level中
-										level = levelMap[tdsValue];    
-								}
-								if(iii>0) {
-										utility.getFiltteringData(j, provinceID, year, level, iii, tdsValue, result,levelMap);
-								}
-						});
-				});
-			});
-		}
-		console.log(result);// 获得所有的数据（一个二维数组）
-	});
+    const lastyear = 2019;
+    const yearCount = utility.getYearCount($, lastyear);
+    console.log(yearCount);
+    // Each province has six years of data, use a loop to get data of each year.
+    // eslint-disable-next-line no-plusplus
+    for (let j = 1; j < yearCount; j++) {
+      $('.fsshowli').each((_i, v) => {
+        // The second layer loops get one of six tables for each province
+        let provinceID;
+        try {
+          provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
+        } catch (error) {
+          console.error('The format of privince is not expected');
+        }
+        const year = utility.getYear($, j);
+        const trs = $(v).find(`div.tline > div:nth-child(${j})>table .tr-cont`);
+        // Get all trs for one of the six tables
+        let level;
+        trs.each((_ii, vv) => { // Layer 3 loop through (except header) tr(each line)
+          $(vv).find('td').each((iii, vvv) => { // The fourth layer loops through each td in a row
+            // filter all useless data
+            const tdsValue = $(vvv).text();
+            // If the index is 0, the value is stored in the variable level for the batch
+            if (iii === 0) {
+              level = levelMap[tdsValue];
+            }
+            if (iii > 0) {
+              // If it is not zero, all the obtained data are sequentially inserted into an array
+              utility.getFiltterData(j, provinceID, year, level, iii, tdsValue, result, levelMap);
+              // In this function we'll get a array called result to record all the information
+            }
+          });
+        });
+      });
+    }
+    console.log(result);// Get all the data (a two-dimensional array)
+    // db.dbInsert();
+    db.dbClose();
+  });
 });
 
+// Get the levelMap and provinceMap from data base.
 (async () => {
-  console.log('我正在读取数据库，准备需要的数据');
+  console.log('I am reading the database, preparing the data I need');
   const admissionLevelPromise = db.getPromiseOfAdmissionLevel();
   await db.handleGetPromiseOfAdmissionLevel(admissionLevelPromise);
   const provincesPromise = db.getPromiseOfProvinces();
   await db.handleGetPromiseOfProvinces(provincesPromise);
   provinceMap = db.provincesMap;
   levelMap = db.admissionLevelMap;
+  console.log(levelMap);
   event.emit('DB data prepared');
 })();
 
 // process.exit()
-
-
-// step1: 遍历数据库中provience表，返回对象，包含各省ID和名称。
-
-// step2: 遍历每个省每一年下的所有行。遍历各省，输入各省的dom, 比对网页中的省份名称和step1对象，输出省份ID。
-// 遍历各年，输出年份。遍历每一行，push proID and year into record, 拆分出批次、文理科成绩，push into record.
-// Store records into two-dimension array.
-
-// step3: 二位数组一次性插入数据库。输入二维数组。没有返回值。
