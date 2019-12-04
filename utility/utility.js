@@ -1,79 +1,89 @@
-var cheerio = require('cheerio');
-const data = require('../testdata.js');
+/* eslint-disable eqeqeq */
+class Utility {
+  static getYearCount($, lastyear) {
+    let yearCount;
+    // eslint-disable-next-line no-unused-vars
+    let year = $('#bj > div.sline.clearfix > div.year.mtf_0.act').text();
+    year = parseInt(year.substr(0, year.length - 1), 10);
+    if (year !== lastyear) {
+      yearCount = 2;
+    } else {
+      yearCount = 7;
+    }
+    return yearCount;
+  }
 
-class Utility{
-    
-    //获取省份ID
-    static getProvinceId(provinceName, map){
-        var cityValue = /市/;
-        var provinceValue = /省/;
-        if(cityValue.test(provinceName) || provinceValue.test(provinceName)){
-            throw new Error('format error');
-        }
-        return map[provinceName];
+  // get the province ID
+  static getProvinceId(provinceName, map) {
+    const cityValue = /市/;
+    const provinceValue = /省/;
+    if (cityValue.test(provinceName) || provinceValue.test(provinceName)) {
+      throw new Error('format error');
     }
-    
-    //获取年份
-    static getYear($, j){
-        var year = $('#bj>div.sline.clearfix > div:nth-child('+j+')').text();
-        year = parseInt(year.substr(0,year.length-1));
-        
-        return year;
-    }
+    return map[provinceName];
+  }
 
-    //获取没有文理分科的数据
-    static specialRecord(provinceID, year, level, tdsValue){
-        var record = [];
-        var score = parseInt(tdsValue.substr(0,3));
-        record.push(provinceID);
-        record.push(year);         
-        record.push(score);
-        record.push('all');//如果td在tr中的第二列，则为文科，并将这两项放入record数组中                                          
-        record.push(level);
-        return record;   
-    }
+  // Get the year and convert it be an int type
+  static getYear($, j) {
+    let year = $(`#bj>div.sline.clearfix > div:nth-child(${j})`).text();
+    year = parseInt(year.substr(0, year.length - 1), 10);
+    return year;
+  }
 
-    //获取分科的数据
-    static  recordScore(provinceID, year, level, iii, tdsValue){
-        var score = parseInt(tdsValue.substr(0,3));
-        var record = [];
-        record.push(provinceID);
-        record.push(year);  
-        record.push(score);
-        if(iii==1){          
-            record.push('art');//如果td在tr中的第二列，则为文科，并将这两项放入record数组中                                          
-        }else{
-            record.push('science');   //如果td在tr中的第三列，则为理科，并将这两项放入record数组中                       
-        }   
-        record.push(level);
-        return record;                  
-    }
+  // Get data that does not have a liberal arts section
+  static specialRecord(provinceID, year, level, tdsValue) {
+    const record = [];
+    const score = parseInt(tdsValue.substr(0, 3), 10);
+    record.push(provinceID);
+    record.push(year);
+    record.push(score);
+    // If td is the second column in tr, it is liberal arts
+    record.push('all');
+    record.push(level);
+    return record;
+  }
 
-    //将获取的数据分别插入result数组中
-    static pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result){//获取每一条记录
-        if(j < 4 && (provinceID=='25'|| provinceID=='35')){//特殊处理2019-2017上海和浙江的分数
-            if(tdsValue!='分数线' && tdsValue!='综合'){//清理上海和浙江表中的无用数据
-                result.push(this.specialRecord(provinceID, year, level, tdsValue));//将一个得到的每一条数据存入数组中
-            }
-        }
-        else{//获取分了文理科的城市的年份的分数和文（理）科     
-            result.push(this.recordScore(provinceID, year, level, iii, tdsValue));//将一个得到的每一条数据存入数组中                      
-        }
-       return result;
+  // 获取分科的数据
+  static recordScore(provinceID, year, level, iii, tdsValue) {
+    const score = parseInt(tdsValue.substr(0, 3), 10);
+    const record = [];
+    record.push(provinceID);
+    record.push(year);
+    record.push(score);
+    if (iii === 1) {
+      // If td is the second column in tr, it is liberal arts
+      record.push('art');
+    } else {
+      record.push('science');
     }
+    record.push(level);
+    return record;
+  }
 
-    //过滤分数格式不正确的记录
-    static getFiltteringData(j, provinceID, year, level, iii, tdsValue, result){
-        var test=1;
-        if(tdsValue!='-' && tdsValue!='' && tdsValue!=' ' && /点击查看/.test(tdsValue)==false){                                             
-                return(this.pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result));
-        }
-        else
-            return test;
+  // inserts the retrieved data into the result array
+  static pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result) {
+    // special treatment of 2019-2017 Shanghai and zhejiang scores
+    if (j < 4 && (provinceID == '25' || provinceID == '35')) {
+      // clean up the useless data in the tables of Shanghai and Zhejiang
+      if (tdsValue != '分数线' && tdsValue != '综合') {
+        // stores each piece of data in an array
+        result.push(this.specialRecord(provinceID, year, level, tdsValue));
+      }
+    } else {
+      // get a grade and a liberal arts (science) subject for the year of the city
+      result.push(this.recordScore(provinceID, year, level, iii, tdsValue));
     }
-    
+    return result;
+  }
+
+  // filter records with incorrect score format
+  static getFiltterData(j, provinceID, year, level, iii, tdsValue, result) {
+    const test = 1;
+    if (tdsValue !== '-' && tdsValue !== '' && tdsValue !== ' ' && /点击查看/.test(tdsValue) === false) {
+      return (this.pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result));
+    } return test;
+  }
 }
-
 
 
 module.exports = Utility;

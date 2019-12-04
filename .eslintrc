@@ -25,5 +25,5 @@
     "import/no-dynamic-require": "off",
     "quotes": [1, "single"],
     "semi": [2, "always", {"omitLastInOneLineBlock": true}]
-  }, 
+  } 
 }
