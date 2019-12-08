@@ -1294,7 +1294,7 @@ const data = `<div class="fsx">
                         <td>艺术类一批</td>
                         <td>355</td>
                         <td>335</td>
-                    </tr>								
+                    </tr>
                     <tr class="tr-cont">
                         <td>体育类一批</td>
                         <td>437</td>
