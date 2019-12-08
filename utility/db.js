@@ -1,9 +1,10 @@
 const mysql = require('mysql');
 const dbConfig = require('../db_config.js');
+
 class DatabaseUtility {
   constructor() {
     this.connection = mysql.createConnection(
-      dbConfig
+      dbConfig,
     );
     this.connection.connect();
     this.admissionLevelMap = {};
@@ -11,8 +12,8 @@ class DatabaseUtility {
   }
 
   static prepare(columns = '*', table = 'users', mId) {
-    var sql = 'SELECT ?? FROM ??';
-    var inserts = [columns, table];
+    let sql = 'SELECT ?? FROM ??';
+    const inserts = [columns, table];
     if (mId) {
       sql += ' WHERE ?? = ?';
       inserts.push(...['id', mId]);
@@ -20,39 +21,41 @@ class DatabaseUtility {
     sql = mysql.format(sql, inserts);
     return sql;
   }
-query1(query_str) {
-    var self = this;
-    return new Promise(function (resolve, reject) {
-      self.connection.query(query_str, function (err, rows) {
+
+  query1(queryStr) {
+    const self = this;
+    return new Promise(((resolve, reject) => {
+      // eslint-disable-next-line consistent-return
+      self.connection.query(queryStr, (err, rows) => {
         if (err) {
           return reject(err);
         }
         resolve(rows);
       });
-    });
+    }));
   }
 
-  asyncQuery(query_str) {
-    var self = this;
-    return new Promise(function (resolve, reject) {
-      self.connection.query(query_str, function (err, rows) {
+  asyncQuery(queryStr) {
+    const self = this;
+    return new Promise(((resolve, reject) => {
+      self.connection.query(queryStr, (err, rows) => {
         if (err) {
           return reject(err);
         }
         return resolve(rows);
       });
-    });
+    }));
   }
 
 
-
   dbInsert(data, err) {
-    var self = this;
+    const self = this;
     if (err) throw err;
     console.log('Connected!');
-    var values = data;
-    var sql = 'INSERT INTO ncee_fraction_lines(province_id,year,score,art_science_division,level) VALUES ?';
-    self.connection.query(sql, [values], function (err, result) {
+    const values = data;
+    const sql = 'INSERT INTO ncee_fraction_lines(province_id,year,score,art_science_division,level) VALUES ?';
+    // eslint-disable-next-line no-shadow
+    self.connection.query(sql, [values], (err) => {
       if (err) {
         console.log('INSERT ERROR - ', err.message);
         return;
@@ -63,24 +66,26 @@ query1(query_str) {
   }
 
   dbClose() {
-    this.connection && this.connection.end();
+    this.connection.end();
   }
 
 
-  //extract admission_level into an object    
+  // extract admission_level into an object
   getPromiseOfAdmissionLevel() {
-    var strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'], 'admission_level');
-    var findData = this.query1(strQueryAdmissionLevelSql);
+    const strQueryAdmissionLevelSql = DatabaseUtility.prepare(['name', 'id'], 'admission_level');
+    const findData = this.query1(strQueryAdmissionLevelSql);
     return findData;
   }
 
   async handleGetPromiseOfAdmissionLevel(promise) {
-    var self = this;
-    return await promise.then(function (data) {
-      for (var i = 0; i < data.length; i++) {
+    const self = this;
+    // eslint-disable-next-line no-return-await
+    return await promise.then((data) => {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < data.length; i++) {
         if (data[i]) {
-          var name = data[i]['name'];
-          var id = data[i]['id'];
+          const { name } = data[i];
+          const { id } = data[i];
           self.admissionLevelMap[name] = id;
         }
       }
@@ -88,31 +93,29 @@ query1(query_str) {
     });
   }
 
-  //extract provinces into an object
+  // extract provinces into an object
   getPromiseOfProvinces() {
-    var strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'], 'provinces');
-    var findData = this.query1(strQueryProvincesSql);
+    const strQueryProvincesSql = DatabaseUtility.prepare(['chinese_name', 'id'], 'provinces');
+    const findData = this.query1(strQueryProvincesSql);
     return findData;
   }
 
   async handleGetPromiseOfProvinces(promise) {
-    var self = this;
-    return await promise.then(function (data) {
-      for (var i = 0; i < data.length; i++) {
+    const self = this;
+    // eslint-disable-next-line no-return-await
+    return await promise.then((data) => {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < data.length; i++) {
         if (data[i]) {
-          var name = data[i]['chinese_name'];
-          var id = data[i]['id'];
+          const name = data[i].chinese_name;
+          const { id } = data[i];
           self.provincesMap[name] = id;
         }
       }
       return self.provincesMap;
     });
   }
-
 }
-
-
-
 
 
 module.exports = DatabaseUtility;
