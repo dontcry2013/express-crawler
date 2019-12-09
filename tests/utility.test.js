@@ -51,8 +51,12 @@ test.skip('test http get', () => {
   });
 });
 test('test the function for count the number of year', () => {
-  const yearCount = utility.getYearCount($, 2019);
-  expect(yearCount === 7).toEqual(true);
+  const yearCount = utility.getYearCount($);
+  let expectYearcount = 1;
+  $('#bj > div.sline.clearfix>div').each(() => {
+    expectYearcount += 1;
+  });
+  expect(yearCount === expectYearcount).toEqual(true);
 });
 
 test('test the function for get year', () => {
@@ -69,20 +73,19 @@ test('test the function for getting the data which no liberal arts and science s
   let record = [];
   const expectRecord = [25, 2019, 503, 'all', 17];
   record = utility.specialRecord(25, 2019, 17, '503');
-  expect(record[3] === expectRecord[3]).toEqual(true);// 上海 2019 自主招生控制分数线（在数据库中查ID）
+  expect(record[3] === expectRecord[3]).toEqual(true);
 });
 
 test('test the function for getting the data which has liberal arts and science subdivisons', () => {
   let record = [];
-  record = utility.recordScore(3, 2019, 1, 2, '423');// 3：北京 1:批次 2：index（以为是一个tr中的第三个td）
+  record = utility.recordScore(3, 2019, 1, 2, '423');
   expect(record[0] === 3 && record[2] === 423 && record[4] === 1).toEqual(true);
-  // 北京 2019  理科 423 本科批（在数据库中查ID）
 });
 
 test('test the function for pushing the recived data into an array', () => {
   let result = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   const expectRecord = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17], [4, 2019, 545, 'art', 6]];
-  result = utility.pushDataIntoArray(1, 4, 2019, 6, 1, '545', result);// 1：j（意为找的是2018年相对应的表） 4:重庆  6：一批  1：index（以为是一个tr中的第二个td）
+  result = utility.pushDataIntoArray(1, 4, 2019, 6, 1, '545', result);
   expect(result[1][2] === expectRecord[1][2] && result[2][2] === expectRecord[2][2]).toEqual(true);
 });
 
@@ -90,8 +93,8 @@ test('test the function for flitering the data', () => {
   const array = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   let result2 = [];
   let result1 = 1;
-  result1 = utility.getFiltterData(1, 24, 2019, 51, 1, '-', array); // 测试输入值包括‘-’时的结果
-  result2 = utility.getFiltterData(1, 4, 2019, 6, 1, '545', array);
+  result1 = utility.getFiltterData(true, 24, 2019, 51, 1, '-', array);
+  result2 = utility.getFiltterData(true, 4, 2019, 6, 1, '545', array);
   expect(result1 === 1).toEqual(true);
   expect(result2[1][1] === 2019 && result2[2][2] === 545).toEqual(true);
 });

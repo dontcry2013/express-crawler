@@ -1,15 +1,11 @@
 /* eslint-disable eqeqeq */
 class Utility {
-  static getYearCount($, lastyear) {
-    let yearCount;
+  static getYearCount($) {
+    let yearCount = 1;
     // eslint-disable-next-line no-unused-vars
-    let year = $('#bj > div.sline.clearfix > div.year.mtf_0.act').text();
-    year = parseInt(year.substr(0, year.length - 1), 10);
-    if (year !== lastyear) {
-      yearCount = 2;
-    } else {
-      yearCount = 7;
-    }
+    $('#bj > div.sline.clearfix>div').each(() => {
+      yearCount += 1;
+    });
     return yearCount;
   }
 
@@ -31,9 +27,9 @@ class Utility {
   }
 
   // Get data that does not have a liberal arts section
-  static specialRecord(provinceID, year, level, tdsValue) {
+  static specialRecord(provinceID, year, level, tdValue) {
     const record = [];
-    const score = parseInt(tdsValue.substr(0, 3), 10);
+    const score = parseInt(tdValue.substr(0, 3), 10);
     record.push(provinceID);
     record.push(year);
     record.push(score);
@@ -43,9 +39,9 @@ class Utility {
     return record;
   }
 
-  // 获取分科的数据
-  static recordScore(provinceID, year, level, iii, tdsValue) {
-    const score = parseInt(tdsValue.substr(0, 3), 10);
+  // Get data that have a liberal arts section
+  static recordScore(provinceID, year, level, iii, tdValue) {
+    const score = parseInt(tdValue.substr(0, 3), 10);
     const record = [];
     record.push(provinceID);
     record.push(year);
@@ -61,26 +57,26 @@ class Utility {
   }
 
   // inserts the retrieved data into the result array
-  static pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result) {
+  static pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result) {
     // special treatment of 2019-2017 Shanghai and zhejiang scores
-    if (j < 4 && (provinceID == '25' || provinceID == '35')) {
+    if (judgeDivision) {
       // clean up the useless data in the tables of Shanghai and Zhejiang
-      if (tdsValue != '分数线' && tdsValue != '综合') {
-        // stores each piece of data in an array
-        result.push(this.specialRecord(provinceID, year, level, tdsValue));
+      // stores each piece of data in an array
+      if (tdValue !== '分数线' && tdValue !== '综合') {
+        result.push(this.specialRecord(provinceID, year, level, tdValue));
       }
     } else {
       // get a grade and a liberal arts (science) subject for the year of the city
-      result.push(this.recordScore(provinceID, year, level, iii, tdsValue));
+      result.push(this.recordScore(provinceID, year, level, iii, tdValue));
     }
     return result;
   }
 
   // filter records with incorrect score format
-  static getFiltterData(j, provinceID, year, level, iii, tdsValue, result) {
+  static getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result) {
     const test = 1;
-    if (tdsValue !== '-' && tdsValue !== '' && tdsValue !== ' ' && /点击查看/.test(tdsValue) === false) {
-      return (this.pushDataIntoArray(j, provinceID, year, level, iii, tdsValue, result));
+    if (tdValue !== '-' && tdValue !== '' && tdValue !== ' ' && /点击查看/.test(tdValue) === false) {
+      return (this.pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result));
     } return test;
   }
 }
