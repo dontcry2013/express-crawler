@@ -27,14 +27,16 @@ event.on('DB data prepared', () => {
   queryOrder(host, 11).then((arr) => {
     const $ = cheerio.load(arr[0]);
     const result = [];
-    const lastyear = 2019;
-    const yearCount = utility.getYearCount($, lastyear);
-    console.log(yearCount);
+    const yearNumber = utility.getYearCount($);
     // Each province has six years of data, use a loop to get data of each year.
     // eslint-disable-next-line no-plusplus
-    for (let j = 1; j < yearCount; j++) {
+    for (let j = 1; j < yearNumber; j++) {
       $('.fsshowli').each((_i, v) => {
         // The second layer loops get one of six tables for each province
+        let judgeDivision = false;
+        if ($(v).find(`div.tline > div:nth-child(${j}) > table > tbody > tr:nth-child(1)>td:nth-child(2)`).text() !== '文科') {
+          judgeDivision = true;
+        }
         let provinceID;
         try {
           provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
@@ -48,14 +50,15 @@ event.on('DB data prepared', () => {
         trs.each((_ii, vv) => { // Layer 3 loop through (except header) tr(each line)
           $(vv).find('td').each((iii, vvv) => { // The fourth layer loops through each td in a row
             // filter all useless data
-            const tdsValue = $(vvv).text();
+            const tdValue = $(vvv).text();
             // If the index is 0, the value is stored in the variable level for the batch
             if (iii === 0) {
-              level = levelMap[tdsValue];
+              level = levelMap[tdValue];
             }
             if (iii > 0) {
               // If it is not zero, all the obtained data are sequentially inserted into an array
-              utility.getFiltterData(j, provinceID, year, level, iii, tdsValue, result, levelMap);
+              // eslint-disable-next-line prefer-const
+              utility.getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
               // In this function we'll get a array called result to record all the information
             }
           });
@@ -64,7 +67,7 @@ event.on('DB data prepared', () => {
     }
     console.log(result);// Get all the data (a two-dimensional array)
     // db.dbInsert();
-    db.dbClose();
+    // db.dbClose();
   });
 });
 
@@ -77,7 +80,7 @@ event.on('DB data prepared', () => {
   await db.handleGetPromiseOfProvinces(provincesPromise);
   provinceMap = db.provincesMap;
   levelMap = db.admissionLevelMap;
-  console.log(levelMap);
+  // console.log(levelMap);
   event.emit('DB data prepared');
 })();
 
