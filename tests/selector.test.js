@@ -15,10 +15,24 @@ test('get year div', () => {
   const year1 = $('#bj>div.sline.clearfix>div:nth-child(1)').text();
   expect(year1 === '2019年').toEqual(true);
 });
+test('get year div', () => {
+  const year1 = $('#sx>div.sline.clearfix>div:nth-child(4)').text();
+  expect(year1 === '2016年').toEqual(true);
+});
+
 test('get score div', () => {
   const score = $('#bj>div.tline > div:nth-child(1)>table>tbody>tr:nth-child(2)>td:nth-child(2)').text();
   expect(score === '480').toEqual(true);
 });
+test('get score div', () => {
+  const score = $('#sh > div.tline > div:nth-child(1) > table > tbody > tr:nth-child(3) > td:nth-child(2)').text();
+  expect(score === '403').toEqual(true);
+});
+test('get score div', () => {
+  const score = $('#sh > div.tline > div:nth-child(5) > table > tbody > tr:nth-child(4) > td:nth-child(3)').text();
+  expect(score === '348').toEqual(true);
+});
+
 // step2: getProvinceId(v), input: v = <div class="fsshowli" id="bj">...</div>, output: proID
 // Test case: getProvinceId(v), input: <div class="fsshowli" id="bj">...</div>, output: 3
 // Test case: getProvinceId(v), input: <div class="fsshowli" id="nmg">...</div>, output: 20

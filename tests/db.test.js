@@ -28,10 +28,23 @@ test('mysql admission level select test', () => {
       const { id } = data[i];
       admissionLevelid[name] = id;
     }
-
     expect(admissionLevelid['汉语本科一批']).toEqual(114);
   });
 });
+test('mysql admission level select test', () => {
+  expect.assertions(1);
+  const admissionLevelid = {};
+  return db.getPromiseOfAdmissionLevel().then((data) => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < data.length; i++) {
+      const { name } = data[i];
+      const { id } = data[i];
+      admissionLevelid[name] = id;
+    }
+    expect(admissionLevelid['第一段']).toEqual(54);
+  });
+});
+
 
 test('mysql provinces select test', () => {
   expect.assertions(1);
@@ -45,6 +58,32 @@ test('mysql provinces select test', () => {
     }
 
     expect(provinces['北京']).toEqual(3);
+  });
+});
+test('mysql provinces select test', () => {
+  expect.assertions(1);
+  const provinces = {};
+  return db.getPromiseOfProvinces().then((data) => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < data.length; i++) {
+      const name = data[i].chinese_name;
+      const { id } = data[i];
+      provinces[name] = id;
+    }
+    expect(provinces['黑龙江']).toEqual(12);
+  });
+});
+test('mysql provinces amount test', () => {
+  expect.assertions(1);
+  const provinces = {};
+  return db.getPromiseOfProvinces().then((data) => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < data.length; i++) {
+      const name = data[i].chinese_name;
+      const { id } = data[i];
+      provinces[name] = id;
+    }
+    expect(data.length).toEqual(34);
   });
 });
 // step3: databae operations. Test whether a specific record is in table.
@@ -71,6 +110,8 @@ test('should get the admission level map', async (done) => {
     expect(db.admissionLevelMap['第三批']).toBe(60);
     expect(db.admissionLevelMap['二批B']).toBe(89);
     expect(db.admissionLevelMap['牛奶']).toBe(undefined);
+    expect(db.admissionLevelMap['二']).toBe(undefined);
+    expect(db.admissionLevelMap['本科三批']).toBe(49);
     done();
   } catch (error) {
     console.error(error.message);
@@ -85,6 +126,19 @@ test('test the insert data', async (done) => {
     db.connection.query(sql, sqlParams, (err, result) => {
       console.log(result);
       expect(result[0].score).toBe(480);
+      done();
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+test('test the insert data', async (done) => {
+  try {
+    const sql = 'SELECT score FROM `ncee_fraction_lines` WHERE `province_id` = ? AND `year` = ? AND `art_science_division` = ? AND `level`= ?';
+    const sqlParams = ['35', '2017', 'all', '58'];
+    db.connection.query(sql, sqlParams, (err, result) => {
+      console.log(result);
+      expect(result[0].score).toBe(451);
       done();
     });
   } catch (error) {
