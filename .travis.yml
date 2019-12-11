@@ -4,7 +4,7 @@ node_js:
 - 10
 script:
 - npm run lint
-- npm run travis.test
+- npm run test
 before_install:
 - openssl aes-256-cbc -K $encrypted_e8aa77f7c9c5_key -iv $encrypted_e8aa77f7c9c5_iv
   -in db_config.js.enc -out db_config.js -d
