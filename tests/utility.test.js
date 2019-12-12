@@ -58,15 +58,23 @@ test('test the function for count the number of year', () => {
   });
   expect(yearCount === expectYearcount).toEqual(true);
 });
-
 test('test the function for get year', () => {
   const year = utility.getYear($, 1);
   expect(year === 2019).toEqual(true);
 });
+test('test the function for get year', () => {
+  const year = utility.getYear($, 3);
+  expect(year === 2017).toEqual(true);
+});
+//getYear($,8)
 
 test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('北京', provinceMap);
   expect(provinceID === 3).toEqual(true);
+});
+test('test the function for getting province ID', () => {
+  const provinceID = utility.getProvinceId('浙江', provinceMap);
+  expect(provinceID === 35).toEqual(true);
 });
 
 test('test the function for getting the data which no liberal arts and science subdivisons', () => {
@@ -75,11 +83,22 @@ test('test the function for getting the data which no liberal arts and science s
   record = utility.specialRecord(25, 2019, 17, '503');
   expect(record[3] === expectRecord[3]).toEqual(true);
 });
+test('test the function for getting the data which no liberal arts and science subdivisons', () => {
+  let record = [];
+  const expectRecord = [35, 2017, 359, 'all', 56];
+  record = utility.specialRecord(35, 2017, 56, '359');
+  expect(record[3] === expectRecord[3]).toEqual(true);
+});
 
 test('test the function for getting the data which has liberal arts and science subdivisons', () => {
   let record = [];
   record = utility.recordScore(3, 2019, 1, 2, '423');
   expect(record[0] === 3 && record[2] === 423 && record[4] === 1).toEqual(true);
+});
+test('test the function for getting the data which has liberal arts and science subdivisons', () => {
+  let record = [];
+  record = utility.recordScore(4, 2014, 6, 1, '555');
+  expect(record[0] === 4 && record[2] === 555 && record[4] === 6).toEqual(true);
 });
 
 test('test the function for pushing the recived data into an array', () => {
@@ -91,10 +110,17 @@ test('test the function for pushing the recived data into an array', () => {
 
 test('test the function for flitering the data', () => {
   const array = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
+  let result1 = 0;
   let result2 = [];
-  let result1 = 1;
+  let result3 = 0;
+  let result4 = [];
   result1 = utility.getFiltterData(true, 24, 2019, 51, 1, '-', array);
   result2 = utility.getFiltterData(true, 4, 2019, 6, 1, '545', array);
+  result3 = utility.getFiltterData(true, 14, 2018, 12, 2, '点击查看', array);
+  result4 = utility.getFiltterData(true, 25, 2018, 21, 'all', 143, array);
   expect(result1 === 1).toEqual(true);
   expect(result2[1][1] === 2019 && result2[2][2] === 545).toEqual(true);
+  expect(result3 === 1).toEqual(true);
+  expect(result4[3][1] === 2018 && result4[3][2] === 143).toEqual(true);
 });
+//without level
