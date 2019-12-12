@@ -31,6 +31,7 @@
   "homepage": "https://github.com/dontcry2013/express-crawler#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "crawler": "^1.2.1",
     "dailylog": "0.0.2",
     "mysql": "^2.17.1"
   },
