@@ -1,7 +1,7 @@
 # express-crawler
-An express project to crawl websites.<br/><br/>
+An express project to crawl websites.<br/>
 
-## Table of comtents
+## Table of contents
 * [About the project](#about-the-project)
   * [Project aim](#project-aim)
   * [Development tools and environment](#Development-tools-and-environment)
@@ -47,7 +47,7 @@ Evidence supports that the admission requirements for chinese highschool graduat
 * Git (Version management tool with npm)
 * Clone the repo
 ```
-git clone https://github.com/your_username_/Project-Name.git
+git clone https://github.com/dontcry2013/express-crawler.git
 ```
 * Install 'code spell check' in VSCode
 * Install npm packages
