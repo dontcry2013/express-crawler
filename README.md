@@ -26,17 +26,6 @@ Evidence supports that the admission requirements for chinese highschool graduat
 * cheerio
 * es5
 * json
-
-### Project procedures
-* Crawl data from web pages
-* Store data into database
-* Present information through webpages
-
-### Main outcomes
-* Codes to crawl data from web pages
-* Database to store and process data
-* Webpages to present information
-* Document the flow of development, including timeline and git commands, workflow guideline, different role has different procedure, collaborator and forker
 </br>
 
 ## Getting Started
