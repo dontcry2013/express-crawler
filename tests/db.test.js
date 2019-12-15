@@ -86,7 +86,7 @@ test('mysql provinces amount test', () => {
     expect(data.length).toEqual(34);
   });
 });
-// step3: databae operations. Test whether a specific record is in table.
+// step3: database operations. Test whether a specific record is in table.
 
 test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {
   try {

@@ -21,6 +21,10 @@ class Utility {
 
   // Get the year and convert it be an int type
   static getYear($, j) {
+    const judgeNumber = this.getYearCount($) - 1;
+    if (j > judgeNumber || typeof j === 'string') {
+      return -1;
+    }
     let year = $(`#bj>div.sline.clearfix > div:nth-child(${j})`).text();
     year = parseInt(year.substr(0, year.length - 1), 10);
     return year;
@@ -28,6 +32,9 @@ class Utility {
 
   // Get data that does not have a liberal arts section
   static specialRecord(provinceID, year, level, tdValue) {
+    if (typeof (tdValue) !== 'string') {
+      return -1;
+    }
     const record = [];
     const score = parseInt(tdValue.substr(0, 3), 10);
     record.push(provinceID);

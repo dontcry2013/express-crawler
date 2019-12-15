@@ -67,7 +67,7 @@ test('test the function for get year', () => {
   const year = utility.getYear($, 3);
   expect(year === 2017).toEqual(true);
 });
-//getYear($,8)
+// getYear($,8)
 
 test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('北京', provinceMap);

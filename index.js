@@ -50,7 +50,11 @@ event.on('DB data prepared', () => {
             const tdValue = $(vvv).text();
             // If the index is 0, the value is stored in the variable level for the batch
             if (iii === 0) {
-              level = levelMap[tdValue];
+              if (levelMap[tdValue]) {
+                level = levelMap[tdValue];
+              } else {
+                return -1;
+              }
             }
             if (iii > 0) {
               // If it is not zero, all the obtained data are sequentially inserted into an array
