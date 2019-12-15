@@ -19,7 +19,6 @@ test('get year div', () => {
   const year1 = $('#sx>div.sline.clearfix>div:nth-child(4)').text();
   expect(year1 === '2016年').toEqual(true);
 });
-
 test('get score div', () => {
   const score = $('#bj>div.tline > div:nth-child(1)>table>tbody>tr:nth-child(2)>td:nth-child(2)').text();
   expect(score === '480').toEqual(true);

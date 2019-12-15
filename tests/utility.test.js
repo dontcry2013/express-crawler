@@ -67,7 +67,11 @@ test('test the function for get year', () => {
   const year = utility.getYear($, 3);
   expect(year === 2017).toEqual(true);
 });
-// getYear($,8)
+/*test('test the function for get year', () => {
+  const year = utility.getYear($, 8);
+ expect(year === ).toEqual(true);
+});*/
+//getYear($,8)
 
 test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('北京', provinceMap);
@@ -115,13 +119,16 @@ test('test the function for flitering the data', () => {
   let result2 = [];
   let result3 = 0;
   let result4 = [];
+  let result5 = 0;
   result1 = utility.getFiltterData(true, 24, 2019, 51, 1, '-', array);
   result2 = utility.getFiltterData(true, 4, 2019, 6, 1, '545', array);
   result3 = utility.getFiltterData(true, 14, 2018, 12, 2, '点击查看', array);
   result4 = utility.getFiltterData(true, 25, 2018, 21, 'all', 143, array);
+  result5 = utility.getFiltterData(true, 25, 2018, 21, 'all', '', array);
   expect(result1 === 1).toEqual(true);
   expect(result2[1][1] === 2019 && result2[2][2] === 545).toEqual(true);
   expect(result3 === 1).toEqual(true);
   expect(result4[3][1] === 2018 && result4[3][2] === 143).toEqual(true);
+  expect(result5 === 1).toEqual(true);
 });
 //without level

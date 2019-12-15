@@ -44,7 +44,19 @@ test('mysql admission level select test', () => {
     expect(admissionLevelid['第一段']).toEqual(54);
   });
 });
-
+test('mysql admission level select test', () => {
+  expect.assertions(1);
+  const admissionLevelid = {};
+  return db.getPromiseOfAdmissionLevel().then((data) => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < data.length; i++) {
+      const { name } = data[i];
+      const { id } = data[i];
+      admissionLevelid[name] = id;
+    }
+    expect(data.length).toEqual(122);
+  });
+});
 
 test('mysql provinces select test', () => {
   expect.assertions(1);
