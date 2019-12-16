@@ -22,8 +22,8 @@ class Utility {
   // Get the year and convert it be an int type
   static getYear($, j) {
     const judgeNumber = this.getYearCount($) - 1;
-    if (j > judgeNumber || typeof j === 'string') {
-      return -1;
+    if (j > judgeNumber || typeof j === 'string' || j <= 0) {
+      return 0;
     }
     let year = $(`#bj>div.sline.clearfix > div:nth-child(${j})`).text();
     year = parseInt(year.substr(0, year.length - 1), 10);
@@ -33,7 +33,7 @@ class Utility {
   // Get data that does not have a liberal arts section
   static specialRecord(provinceID, year, level, tdValue) {
     if (typeof (tdValue) !== 'string') {
-      return -1;
+      return 0;
     }
     const record = [];
     const score = parseInt(tdValue.substr(0, 3), 10);
@@ -48,6 +48,9 @@ class Utility {
 
   // Get data that have a liberal arts section
   static recordScore(provinceID, year, level, iii, tdValue) {
+    if (typeof (tdValue) !== 'string') {
+      return 0;
+    }
     const score = parseInt(tdValue.substr(0, 3), 10);
     const record = [];
     record.push(provinceID);
@@ -65,6 +68,9 @@ class Utility {
 
   // inserts the retrieved data into the result array
   static pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result) {
+    if (typeof (tdValue) !== 'string') {
+      return 0;
+    }
     // special treatment of 2019-2017 Shanghai and zhejiang scores
     if (judgeDivision) {
       // clean up the useless data in the tables of Shanghai and Zhejiang
@@ -81,6 +87,9 @@ class Utility {
 
   // filter records with incorrect score format
   static getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result) {
+    if (typeof (tdValue) !== 'string') {
+      return 0;
+    }
     const test = 1;
     if (tdValue !== '-' && tdValue !== '' && tdValue !== ' ' && /点击查看/.test(tdValue) === false) {
       return (this.pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result));

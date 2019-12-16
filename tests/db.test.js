@@ -46,7 +46,7 @@ test('mysql admission level select test', () => {
 });
 test('mysql admission level select test', () => {
   expect.assertions(1);
-  const admissionLevelid = {};
+  // const admissionLevelid = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
     // eslint-disable-next-line no-plusplus
     expect(data.length).toEqual(120);
