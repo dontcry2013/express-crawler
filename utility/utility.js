@@ -86,6 +86,26 @@ class Utility {
       return (this.pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result));
     } return test;
   }
+
+
+  static getDataOfOneTable($, result) {
+    const sqDom = $('div.tabsContainer');
+    const trs = sqDom.find('tr');
+    trs.each((i, v) => {
+    // Filtering the head of table
+      if (i > 0) {
+        const record = [];
+        const tds = $(v).find('td');
+        tds.each((ii, vv) => {
+          if (ii < 6) { // Filtering the last td of a tr
+            record.push($(vv).text());
+          }
+        });
+        result.push(record);
+      }
+    });
+    return result;
+  }
 }
 
 
