@@ -67,11 +67,14 @@ test('test the function for get year', () => {
   const year = utility.getYear($, 3);
   expect(year === 2017).toEqual(true);
 });
-/*test('test the function for get year', () => {
+test('test the function for get year', () => {
   const year = utility.getYear($, 8);
- expect(year === ).toEqual(true);
-});*/
-//getYear($,8)
+ expect(year === -1).toEqual(true);
+});
+test('test the function for get year', () => {
+  const year = utility.getYear($, 0);
+ expect(year === -1).toEqual(true);
+});
 
 test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('北京', provinceMap);
@@ -81,6 +84,7 @@ test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('浙江', provinceMap);
   expect(provinceID === 35).toEqual(true);
 });
+
 
 test('test the function for getting the data which no liberal arts and science subdivisons', () => {
   let record = [];
@@ -94,6 +98,12 @@ test('test the function for getting the data which no liberal arts and science s
   record = utility.specialRecord(35, 2017, 56, '359');
   expect(record[3] === expectRecord[3]).toEqual(true);
 });
+test('test the function for getting the data which no liberal arts and science subdivisons', () => {
+  let record = [];
+  const expectRecord = [35, 2017, 359, 'all', 56];
+  record = utility.specialRecord(35, 2017, 56, 359);
+  expect(record[3] === expectRecord[3]).toEqual(true);
+});
 
 test('test the function for getting the data which has liberal arts and science subdivisons', () => {
   let record = [];
@@ -105,11 +115,22 @@ test('test the function for getting the data which has liberal arts and science 
   record = utility.recordScore(4, 2014, 6, 1, '555');
   expect(record[0] === 4 && record[2] === 555 && record[4] === 6).toEqual(true);
 });
+test('test the function for getting the data which has liberal arts and science subdivisons', () => {
+  let record = [];
+  record = utility.recordScore(4, 2014, 6, 1, 555);
+  expect(record[0] === 4 && record[2] === 555 && record[4] === 6).toEqual(true);
+});
 
 test('test the function for pushing the recived data into an array', () => {
   let result = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   const expectRecord = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17], [4, 2019, 545, 'art', 6]];
   result = utility.pushDataIntoArray(1, 4, 2019, 6, 1, '545', result);
+  expect(result[1][2] === expectRecord[1][2] && result[2][2] === expectRecord[2][2]).toEqual(true);
+});
+test('test the function for pushing the recived data into an array', () => {
+  let result = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
+  const expectRecord = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17], [4, 2019, 545, 'art', 6]];
+  result = utility.pushDataIntoArray(1, 4, 2019, 6, 1, 545, result);
   expect(result[1][2] === expectRecord[1][2] && result[2][2] === expectRecord[2][2]).toEqual(true);
 });
 
