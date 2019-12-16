@@ -90,7 +90,7 @@ git push origin feature/AmazingFeature
 </br>
 
 ## Open issues
-Extendly availability. Website data from year 2014 to 2019 could be successfully crawled and inserted into database. But the availability of the program is unsure, on account of the unpredictable formats of data in the following years.
+Extendive availability. Website data from year 2014 to 2019 could be successfully crawled and inserted into database. But the availability of the program is unsure, on account of the unpredictable formats of data in the following years.
 
 ## License
 Distributed under the MIT License. See LICENSE for more information.
