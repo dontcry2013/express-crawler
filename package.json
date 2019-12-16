@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "travis.test": "jest --testPathIgnorePatterns db.test.js",
-    "test": "jest --testTimeout=7000",
+    "test": "jest --testTimeout=5*60*1000",
     "lint": "eslint --ext .js .",
     "start": "node index.js",
     "go": "npm run lint && npm run test",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
-    "update": "node getOneyearData.js"
+    "update": "node getOneYearData.js"
   },
   "repository": {
     "type": "git",

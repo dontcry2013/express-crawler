@@ -45,6 +45,7 @@ event.on('DB data prepared', () => {
         // Get all trs for one of the six tables
         let level;
         trs.each((_ii, vv) => { // Layer 3 loop through (except header) tr(each line)
+          // eslint-disable-next-line consistent-return
           $(vv).find('td').each((iii, vvv) => { // The fourth layer loops through each td in a row
             // filter all useless data
             const tdValue = $(vvv).text();
