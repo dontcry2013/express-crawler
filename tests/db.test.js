@@ -49,12 +49,7 @@ test('mysql admission level select test', () => {
   const admissionLevelid = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
     // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
-      const { name } = data[i];
-      const { id } = data[i];
-      admissionLevelid[name] = id;
-    }
-    expect(data.length).toEqual(122);
+    expect(data.length).toEqual(120);
   });
 });
 
