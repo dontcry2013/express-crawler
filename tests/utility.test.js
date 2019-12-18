@@ -1,4 +1,5 @@
 const cheerio = require('cheerio');
+const Crawler = require('crawler');
 const queryOrder = require('../utility/http');
 const utility = require('../utility/utility');
 const testdata = require('../testdata.js');
@@ -78,12 +79,16 @@ test('test the function for get year', () => {
 });
 
 test('test the function for getting province ID', () => {
-  const provinceID = utility.getProvinceId('北京', provinceMap);
+  const provinceID = utility.getProvinceId('北京市', provinceMap);
   expect(provinceID === 3).toEqual(true);
 });
 test('test the function for getting province ID', () => {
   const provinceID = utility.getProvinceId('浙江', provinceMap);
   expect(provinceID === 35).toEqual(true);
+});
+test('test the function for getting province ID', () => {
+  const provinceID = utility.getProvinceId('港澳台', provinceMap);
+  expect(provinceID === 0).toEqual(true);
 });
 
 
@@ -152,3 +157,23 @@ test('test the function for flitering the data', () => {
   // expect(result5 === 1).toEqual(true);
 });
 // without level
+test('test the function for get Data Of One Table in the Sina website', () => {
+  let result = [];
+  const dataCrawler = new Crawler({
+    maxConnections: 30,
+    timeout: 1000000,
+    callback(error, res, done) {
+      if (error) {
+        console.log(error);
+      } else {
+        const { $$ } = res;
+        result = utility.getDataOfOneTable($$, result, provinceMap);
+      }
+      done();
+    },
+  });
+  dataCrawler.on('drain', () => {
+    expect(result.length === 20).toEqual(true);
+  });
+  dataCrawler.queue('http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=4&page=1');
+});

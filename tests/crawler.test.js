@@ -1,11 +1,8 @@
-/* eslint-disable no-plusplus */
 const Crawler = require('crawler');
-const utility = require('../utility/utility');
 
 describe('Crawler test', () => {
   let crawler = null;
-  const MAX_TIME = 900000;
-  jest.setTimeout(MAX_TIME); // 1 second
+
   beforeAll(() => {
     crawler = new Crawler({
       maxConnections: 10,
@@ -38,63 +35,6 @@ describe('Crawler test', () => {
     crawler.queue({
       uri: 'http://www.google.com.au',
       callback,
-    });
-  });
-
-  test('should crawl 10 request', (done) => {
-    const result = [];
-    const dataCrawler = new Crawler({
-      maxConnections: 10,
-      timeout: 100000,
-      callback(error, res, finish) {
-        if (error) {
-          console.log(error);
-        } else {
-          const { $ } = res;
-          utility.getDataOfOneTable($, result);
-        }
-        finish();
-      },
-    });
-    const Urls = [];
-    for (let l = 1; l <= 10; l++) {
-      Urls.push(`http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=1&page=${l}`);
-    }
-    dataCrawler.queue(Urls);
-    dataCrawler.on('drain', () => {
-      expect(result.length === 200).toEqual(true);
-      done();
-    });
-  });
-
-  test.skip('should crawl 157 request', (done) => {
-    const result = [];
-    const dataCrawler = new Crawler({
-      maxConnections: 10,
-      timeout: 100000,
-      callback(error, res, finish) {
-        if (error) {
-          console.log(error);
-        } else {
-          const { $ } = res;
-          utility.getDataOfOneTable($, result);
-        }
-        finish();
-      },
-    });
-    // Divide the different pages' url into a queue
-    for (let queueNumber = 0; queueNumber < Math.ceil(157 / 10); queueNumber++) {
-      const Urls = [];
-      for (let l = queueNumber * 10 + 1; l <= (queueNumber + 1) * 10 && l <= 157; l++) {
-        Urls.push(`http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=1&page=${l}`);
-      }
-      dataCrawler.queue(Urls);
-    }
-
-    dataCrawler.on('drain', () => {
-      console.log(result.length);
-      expect(result.length === 3125).toEqual(true);
-      done();
     });
   });
 });

@@ -66,6 +66,22 @@ class DatabaseUtility {
     });
   }
 
+  dbInsert1(data, err) {
+    const self = this;
+    if (err) throw err;
+    console.log('Connected!');
+    const values = data;
+    const sql = 'INSERT INTO score_level(year,province,art_science_division,score_level,number_of_student,rank) VALUES ?';
+    // eslint-disable-next-line no-shadow
+    self.connection.query(sql, [values], (err) => {
+      if (err) {
+        console.log('INSERT ERROR - ', err.message);
+        return;
+      }
+      console.log('INSERT SUCCESS');
+    });
+  }
+
   dbClose() {
     this.connection.end();
   }

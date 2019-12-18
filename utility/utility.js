@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable eqeqeq */
 class Utility {
   static getYearCount($) {
@@ -10,13 +11,29 @@ class Utility {
   }
 
   // get the province ID
-  static getProvinceId(provinceName, map) {
-    const cityValue = /市/;
-    const provinceValue = /省/;
-    if (cityValue.test(provinceName) || provinceValue.test(provinceName)) {
-      throw new Error('format error');
+  static getProvinceId(divValue, map) {
+    const cityValue = '市';
+    const provinceValue = '省';
+    let provinceName = divValue;
+    if (provinceName.search(cityValue) != -1) {
+      const provinceNameArr = divValue.split(cityValue);
+      // eslint-disable-next-line prefer-destructuring
+      provinceName = provinceNameArr[0];
+    } else if (provinceName.search(provinceValue) != -1) {
+      const provinceNameArr = divValue.split(provinceValue);
+      // eslint-disable-next-line prefer-destructuring
+      provinceName = provinceNameArr[0];
     }
-    return map[provinceName];
+    let judgeCount = 0;
+    Object.keys(map).forEach((key) => {
+      if (key == provinceName) {
+        judgeCount++;
+      }
+    });
+    if (judgeCount > 0) {
+      return map[provinceName];
+    }
+    return 0;
   }
 
   // Get the year and convert it be an int type
@@ -96,18 +113,51 @@ class Utility {
     } return test;
   }
 
+  // Divide art and science to the score level website
+  static divideArtScience(tdValue) {
+    if (tdValue === '理科') {
+      return ('science');
+    }
+    if (tdValue === '文科') {
+      return ('art');
+    }
+    return ('all');
+  }
 
-  static getDataOfOneTable($, result) {
+  static processTDValue(i, tdValue, record, map) {
+    if (typeof (tdValue) !== 'string') {
+      return 0;
+    }
+    switch (i) {
+      case 0:
+        record.push(parseInt(tdValue.substr(0, 4), 10));
+        break;
+      case 1:
+        record.push(this.getProvinceId(tdValue, map));
+        break;
+      case 2:
+        record.push(this.divideArtScience(tdValue));
+        break;
+      case 3:
+        record.push(tdValue);
+        break;
+      default:
+        record.push(parseInt(tdValue, 10));
+    }
+    return record;
+  }
+
+  static getDataOfOneTable($, result, map) {
     const sqDom = $('div.tabsContainer');
     const trs = sqDom.find('tr');
     trs.each((i, v) => {
     // Filtering the head of table
       if (i > 0) {
-        const record = [];
+        let record = [];
         const tds = $(v).find('td');
         tds.each((ii, vv) => {
-          if (ii < 6) { // Filtering the last td of a tr
-            record.push($(vv).text());
+          if (ii < 6) {
+            record = this.processTDValue(ii, $(vv).text(), record, map);
           }
         });
         result.push(record);

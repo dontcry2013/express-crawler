@@ -34,12 +34,8 @@ event.on('DB data prepared', () => {
         if ($(v).find(`div.tline > div:nth-child(${j}) > table > tbody > tr:nth-child(1)>td:nth-child(2)`).text() !== '文科') {
           judgeDivision = true;
         }
-        let provinceID;
-        try {
-          provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
-        } catch (error) {
-          console.error('The format of privince is not expected');
-        }
+        let provinceID = 0;
+        provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
         const year = utility.getYear($, j);
         const trs = $(v).find(`div.tline > div:nth-child(${j})>table .tr-cont`);
         // Get all trs for one of the six tables
