@@ -41,7 +41,7 @@ event.on('DB data prepared', () => {
         try {
           provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
         } catch (error) {
-          console.error('The format of privince is not expected');
+          console.error('The format of province is not expected');
         }
         const year = utility.getYear($, j);
         const trs = $(v).find(`div.tline > div:nth-child(${j})>table .tr-cont`);
