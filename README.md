@@ -10,7 +10,8 @@ An express project to crawl websites.<br/>
   * [Prerequisites](#Prerequisites) 
 * [Contributing](#Contributing)
 * [Open issues](#Open-issues)
-* [Contact](#Contact)
+* [License](#License)
+* [Acknowledgements](#Acknowledgements)
 </br>
 
 ## About the project
@@ -89,6 +90,17 @@ git push origin feature/AmazingFeature
 </br>
 
 ## Open issues
+Extendive availability. Website data from year 2014 to 2019 could be successfully crawled and inserted into database. But the availability of the program is unsure, on account of the unpredictable formats of data in the following years.
 
-## Contact
+## License
+Distributed under the MIT License. See LICENSE for more information.
+
+## Acknowledgements
+* Git/GitHub
+* Node.js
+* js/es6/es2017
+* mysql
+* cheerio/JQuery
+* JavaScript standard
+* Markdown
 

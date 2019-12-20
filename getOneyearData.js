@@ -33,12 +33,7 @@ event.on('DB data prepared', () => {
         judgeDivision = true;
       }
       // The second layer loops get one of six tables for each province
-      let provinceID;
-      try {
-        provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
-      } catch (error) {
-        console.error('The format of privince is not expected');
-      }
+      const provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
       const year = utility.getYear($, 1);
       const trs = $(v).find('div.tline > div:nth-child(1)>table .tr-cont');
       // Get all trs for one of the six tables

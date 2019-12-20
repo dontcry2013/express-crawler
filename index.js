@@ -4,12 +4,9 @@
 const path = require('path');
 
 global.appRoot = path.resolve(__dirname);
-const cheerio = require('cheerio');
-/* const dailylog = require('dailylog');
-const homeDir = require('os').homedir();
 
-const logger = dailylog.getlog({ logdir: `${homeDir}/Desktop/log`, name: 'logjsj' }); */
-// const host = 'http://www.crs.jsj.edu.cn/aproval/localdetail/1535';
+const cheerio = require('cheerio');
+
 const host = 'http://www.eol.cn/e_html/gk/fsx/index.shtml';
 const queryOrder = require(`${global.appRoot}/utility/http`);
 const DatabaseUtility = require(`${global.appRoot}/utility/db`);
@@ -37,23 +34,33 @@ event.on('DB data prepared', () => {
         if ($(v).find(`div.tline > div:nth-child(${j}) > table > tbody > tr:nth-child(1)>td:nth-child(2)`).text() !== '文科') {
           judgeDivision = true;
         }
+<<<<<<< HEAD
         let provinceID;
         try {
           provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
         } catch (error) {
           console.error('The format of province is not expected');
         }
+=======
+        let provinceID = 0;
+        provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
+>>>>>>> 9023950a24eeea5fc6103ddd15d4105f7c3bca04
         const year = utility.getYear($, j);
         const trs = $(v).find(`div.tline > div:nth-child(${j})>table .tr-cont`);
         // Get all trs for one of the six tables
         let level;
         trs.each((_ii, vv) => { // Layer 3 loop through (except header) tr(each line)
+          // eslint-disable-next-line consistent-return
           $(vv).find('td').each((iii, vvv) => { // The fourth layer loops through each td in a row
             // filter all useless data
             const tdValue = $(vvv).text();
             // If the index is 0, the value is stored in the variable level for the batch
             if (iii === 0) {
-              level = levelMap[tdValue];
+              if (levelMap[tdValue]) {
+                level = levelMap[tdValue];
+              } else {
+                return -1;
+              }
             }
             if (iii > 0) {
               // If it is not zero, all the obtained data are sequentially inserted into an array

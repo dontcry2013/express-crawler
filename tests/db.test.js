@@ -46,7 +46,7 @@ test('mysql admission level select test', () => {
 });
 test('mysql admission level select test', () => {
   expect.assertions(1);
-  const admissionLevelid = {};
+  // const admissionLevelid = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
     // eslint-disable-next-line no-plusplus
     expect(data.length).toEqual(120);
@@ -93,7 +93,7 @@ test('mysql provinces amount test', () => {
     expect(data.length).toEqual(34);
   });
 });
-// step3: databae operations. Test whether a specific record is in table.
+// step3: e operations. Test whether a specific record is in table.
 
 test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {
   try {
