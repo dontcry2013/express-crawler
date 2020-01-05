@@ -2,22 +2,24 @@
 An express project to crawl websites.<br/>
 
 ## Table of contents
-* [About the project](#about-the-project)
-  * [Project aim](#project-aim)
-  * [Development tools and environment](#Development-tools-and-environment)
-* [Getting started](#Getting-started)
-  * [Installation](#Installation)
-  * [Prerequisites](#Prerequisites) 
-* [Contributing](#Contributing)
-* [Open issues](#Open-issues)
-* [License](#License)
-* [Acknowledgements](#Acknowledgements)
+- [express-crawler](#express-crawler)
+  - [Table of contents](#table-of-contents)
+  - [About the project](#about-the-project)
+    - [Project aim](#project-aim)
+    - [Development tools and environment](#development-tools-and-environment)
+  - [Getting Started](#getting-started)
+    - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+  - [Contributing](#contributing)
+  - [Open issues](#open-issues)
+  - [License](#license)
+  - [Acknowledgements](#acknowledgements)
 </br>
 
 ## About the project
 
 ### Project aim
-Evidence supports that the admission requirements for chinese highschool graduates to enter universities in Australia are lower than ones of most remarkable univerities known as '985' or '211' in China. Therefore, undergraduates of these remarkable univerities in China enjoy better academic quality. Australia Education Management Group (AEMG) is an organisation that sends undergraduates abroad to continue study for bachelor degree. To convince Australian university admissions office of the quality of undergraduates provided by AEMG, data evidence needs to be collected, processed and presented, which is the aim of the project.
+Evidence supports that the admission requirements for chinese highschool graduates to enter universities in Australia are lower than ones of most remarkable universities known as '985' or '211' in China. Therefore, undergraduates of these remarkable universities in China enjoy better academic quality. Australia Education Management Group (AEMG) is an organization that sends undergraduates abroad to continue study for bachelor degree. To convince Australian university admissions office of the quality of undergraduates provided by AEMG, data evidence needs to be collected, processed and presented, which is the aim of the project.
 
 ### Development tools and environment
 * VSCode
@@ -90,7 +92,7 @@ git push origin feature/AmazingFeature
 </br>
 
 ## Open issues
-Extendive availability. Website data from year 2014 to 2019 could be successfully crawled and inserted into database. But the availability of the program is unsure, on account of the unpredictable formats of data in the following years.
+Extensive availability. Website data from year 2014 to 2019 could be successfully crawled and inserted into database. But the availability of the program is unsure, on account of the unpredictable formats of data in the following years.
 
 ## License
 Distributed under the MIT License. See LICENSE for more information.
