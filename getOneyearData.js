@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-loop-func */
-/* eslint-disable linebreak-style */
 const path = require('path');
 
 global.appRoot = path.resolve(__dirname);
@@ -48,7 +45,7 @@ event.on('DB data prepared', () => {
           }
           if (iii > 0) {
             // If it is not zero, all the obtained data are sequentially inserted into an array
-            utility.getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
+            utility.getFilterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
             // In this function we'll get a array called result to record all the information
           }
         });

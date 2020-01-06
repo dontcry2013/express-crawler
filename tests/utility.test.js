@@ -145,11 +145,11 @@ test('test the function for flitering the data', () => {
   let result3 = 0;
   // let result4 = [];
   // let result5 = 0;
-  result1 = utility.getFiltterData(true, 24, 2019, 51, 1, '-', array);
-  result2 = utility.getFiltterData(true, 4, 2019, 6, 1, '545', array);
-  result3 = utility.getFiltterData(true, 14, 2018, 12, 2, '点击查看', array);
-  // result4 = utility.getFiltterData(true, 25, 2018, 21, 1, 'all', 143, array);
-  // result5 = utility.getFiltterData(true, 25, 2018, 21, 1, 'all', '', array);
+  result1 = utility.getFilterData(true, 24, 2019, 51, 1, '-', array);
+  result2 = utility.getFilterData(true, 4, 2019, 6, 1, '545', array);
+  result3 = utility.getFilterData(true, 14, 2018, 12, 2, '点击查看', array);
+  // result4 = utility.getFilterData(true, 25, 2018, 21, 1, 'all', 143, array);
+  // result5 = utility.getFilterData(true, 25, 2018, 21, 1, 'all', '', array);
   expect(result1 === 1).toEqual(true);
   expect(result2[1][1] === 2019 && result2[2][2] === 545).toEqual(true);
   expect(result3 === 1).toEqual(true);

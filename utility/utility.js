@@ -2,12 +2,7 @@
 /* eslint-disable eqeqeq */
 class Utility {
   static getYearCount($) {
-    let yearCount = 1;
-    // eslint-disable-next-line no-unused-vars
-    $('#bj > div.sline.clearfix>div').each(() => {
-      yearCount += 1;
-    });
-    return yearCount;
+    return $('#bj > div.sline.clearfix > div').length;
   }
 
   // get the province ID
@@ -103,7 +98,7 @@ class Utility {
   }
 
   // filter records with incorrect score format
-  static getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result) {
+  static getFilterData(judgeDivision, provinceID, year, level, iii, tdValue, result) {
     if (typeof (tdValue) !== 'string') {
       return 0;
     }

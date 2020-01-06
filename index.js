@@ -26,8 +26,7 @@ event.on('DB data prepared', () => {
     const result = [];
     const yearNumber = utility.getYearCount($);
     // Each province has six years of data, use a loop to get data of each year.
-    // eslint-disable-next-line no-plusplus
-    for (let j = 1; j < yearNumber; j++) {
+    for (let j = 1; j < yearNumber; j += 1) {
       $('.fsshowli').each((_i, v) => {
         // The second layer loops get one of six tables for each province
         let judgeDivision = false;
@@ -56,7 +55,7 @@ event.on('DB data prepared', () => {
             if (iii > 0) {
               // If it is not zero, all the obtained data are sequentially inserted into an array
               // eslint-disable-next-line prefer-const
-              utility.getFiltterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
+              utility.getFilterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
               // In this function we'll get a array called result to record all the information
             }
           });

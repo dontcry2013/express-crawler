@@ -1,8 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-loop-func */
-/* eslint-disable linebreak-style */
 const path = require('path');
 const Crawler = require('crawler');
 
@@ -22,7 +17,7 @@ const event = new EventEmitter();
 event.on('DB data prepared', () => {
 // Get a map for recording the page number of each province.
   const localUri = [];
-  for (let i = 1; i < 33; i++) {
+  for (let i = 1; i < 33; i += 1) {
     localUri.push(`http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=${i}`);
   }
 
@@ -39,6 +34,7 @@ event.on('DB data prepared', () => {
         const page = parseInt(content.totalpage, 10);
         let cityNo;
         if (res.request.uri.query.indexOf('local=') >= 0) {
+          console.log(res.request.uri);
           const cityNoArr = res.request.uri.query.split('local=');
           // eslint-disable-next-line prefer-destructuring
           cityNo = parseInt(cityNoArr[1], 10);
@@ -71,15 +67,17 @@ event.on('DB data prepared', () => {
       db.dbInsert1(result);
     });
     // Divide the different pages' url into a queue
-    for (let queueNumber = 0; queueNumber < Math.ceil(provincePageMap[j] / 30); queueNumber++) {
+    for (let queueNumber = 0; queueNumber < Math.ceil(provincePageMap[j] / 30); queueNumber += 1) {
       const Urls = [];
-      for (let l = queueNumber * 30 + 1; l <= (queueNumber + 1) * 30 && l <= provincePageMap[j]; l++) {
+      let l = queueNumber * 30 + 1;
+      for (; l <= (queueNumber + 1) * 30 && l <= provincePageMap[j]; l += 1) {
         Urls.push(`http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=${j}&page=${l}`);
       }
       dataCrawler.queue(Urls);
     }
   });
 });
+
 (async () => {
   console.log('I am reading the database, preparing the data I need');
   const provincesPromise = db.getPromiseOfProvinces();
