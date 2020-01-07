@@ -4,7 +4,6 @@ const DatabaseUtility = require('../utility/db');
 const event = new EventEmitter();
 const db = new DatabaseUtility();
 
-
 test('mysql select prepare', () => {
   expect(DatabaseUtility.prepare()).toBe('SELECT `*` FROM `users`');
   expect(DatabaseUtility.prepare(['id', 'name'], 'level', 100)).toBe('SELECT `id`, `name` FROM `level` WHERE `id` = 100');
@@ -12,7 +11,7 @@ test('mysql select prepare', () => {
 
 test('mysql select test', (done) => {
   expect.assertions(1);
-  return db.query1('select 1+1').then((result) => {
+  return db.query('select 1+1').then((result) => {
     expect(result[0]['1+1'] === 2).toEqual(true);
     done();
   }).catch((err) => setImmediate(() => { throw err }));
@@ -20,35 +19,31 @@ test('mysql select test', (done) => {
 
 test('mysql admission level select test', () => {
   expect.assertions(1);
-  const admissionLevelid = {};
+  const admissionLevelId = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
       const { name } = data[i];
       const { id } = data[i];
-      admissionLevelid[name] = id;
+      admissionLevelId[name] = id;
     }
-    expect(admissionLevelid['汉语本科一批']).toEqual(114);
+    expect(admissionLevelId['汉语本科一批']).toEqual(114);
   });
 });
 test('mysql admission level select test', () => {
   expect.assertions(1);
-  const admissionLevelid = {};
+  const admissionLevelId = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
       const { name } = data[i];
       const { id } = data[i];
-      admissionLevelid[name] = id;
+      admissionLevelId[name] = id;
     }
-    expect(admissionLevelid['第一段']).toEqual(54);
+    expect(admissionLevelId['第一段']).toEqual(54);
   });
 });
 test('mysql admission level select test', () => {
   expect.assertions(1);
-  // const admissionLevelid = {};
   return db.getPromiseOfAdmissionLevel().then((data) => {
-    // eslint-disable-next-line no-plusplus
     expect(data.length).toEqual(120);
   });
 });
@@ -57,8 +52,7 @@ test('mysql provinces select test', () => {
   expect.assertions(1);
   const provinces = {};
   return db.getPromiseOfProvinces().then((data) => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
       const name = data[i].chinese_name;
       const { id } = data[i];
       provinces[name] = id;
@@ -71,8 +65,7 @@ test('mysql provinces select test', () => {
   expect.assertions(1);
   const provinces = {};
   return db.getPromiseOfProvinces().then((data) => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
       const name = data[i].chinese_name;
       const { id } = data[i];
       provinces[name] = id;
@@ -84,8 +77,7 @@ test('mysql provinces amount test', () => {
   expect.assertions(1);
   const provinces = {};
   return db.getPromiseOfProvinces().then((data) => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i += 1) {
       const name = data[i].chinese_name;
       const { id } = data[i];
       provinces[name] = id;
@@ -93,6 +85,7 @@ test('mysql provinces amount test', () => {
     expect(data.length).toEqual(34);
   });
 });
+
 // step3: e operations. Test whether a specific record is in table.
 
 test('should throw an error if result is not 2 [ASYNC/AWAIT]', async (done) => {

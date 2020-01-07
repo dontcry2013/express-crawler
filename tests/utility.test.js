@@ -54,11 +54,12 @@ test.skip('test http get', () => {
 });
 test('test the function for count the number of year', () => {
   const yearCount = utility.getYearCount($);
-  let expectYearcount = 1;
-  $('#bj > div.sline.clearfix>div').each(() => {
-    expectYearcount += 1;
+  let expectYearCount = 0;
+  $('#bj > div.sline.clearfix > div').each(() => {
+    expectYearCount += 1;
   });
-  expect(yearCount === expectYearcount).toEqual(true);
+  console.log('test year数量', yearCount, expectYearCount);
+  expect(yearCount === expectYearCount).toEqual(true);
 });
 test('test the function for get year', () => {
   const year = utility.getYear($, 1);
@@ -92,53 +93,53 @@ test('test the function for getting province ID', () => {
 });
 
 
-test('test the function for getting the data which no liberal arts and science subdivisons', () => {
+test('test the function for getting the data which no liberal arts and science sub-divisions', () => {
   let record = [];
   const expectRecord = [25, 2019, 503, 'all', 17];
   record = utility.specialRecord(25, 2019, 17, '503');
   expect(record[3] === expectRecord[3]).toEqual(true);
 });
-test('test the function for getting the data which no liberal arts and science subdivisons', () => {
+test('test the function for getting the data which no liberal arts and science sub-divisions', () => {
   let record = [];
   const expectRecord = [35, 2017, 359, 'all', 56];
   record = utility.specialRecord(35, 2017, 56, '359');
   expect(record[3] === expectRecord[3]).toEqual(true);
 });
-test('test the function for getting the data which no liberal arts and science subdivisons', () => {
+test('test the function for getting the data which no liberal arts and science sub-divisions', () => {
   let record = [];
   record = utility.specialRecord(35, 2017, 56, 359);
   expect(record === 0).toEqual(true);
 });
 
-test('test the function for getting the data which has liberal arts and science subdivisons', () => {
+test('test the function for getting the data which has liberal arts and science sub-divisions', () => {
   let record = [];
   record = utility.recordScore(3, 2019, 1, 2, '423');
   expect(record[0] === 3 && record[2] === 423 && record[4] === 1).toEqual(true);
 });
-test('test the function for getting the data which has liberal arts and science subdivisons', () => {
+test('test the function for getting the data which has liberal arts and science sub-divisions', () => {
   let record = [];
   record = utility.recordScore(4, 2014, 6, 1, '555');
   expect(record[0] === 4 && record[2] === 555 && record[4] === 6).toEqual(true);
 });
-test('test the function for getting the data which has liberal arts and science subdivisons', () => {
+test('test the function for getting the data which has liberal arts and science sub-divisions', () => {
   let record = [];
   record = utility.recordScore(4, 2014, 6, 1, 555);
   expect(record === 0).toEqual(true);
 });
 
-test('test the function for pushing the recived data into an array', () => {
+test('test the function for pushing the received data into an array', () => {
   let result = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   const expectRecord = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17], [4, 2019, 545, 'art', 6]];
   result = utility.pushDataIntoArray(1, 4, 2019, 6, 1, '545', result);
   expect(result[1][2] === expectRecord[1][2] && result[2][2] === expectRecord[2][2]).toEqual(true);
 });
-test('test the function for pushing the recived data into an array', () => {
+test('test the function for pushing the received data into an array', () => {
   const result = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   const result1 = utility.pushDataIntoArray(1, 4, 2019, 6, 1, 545, result);
   expect(result1 === 0).toEqual(true);
 });
 
-test('test the function for flitering the data', () => {
+test('test the function for filtering the data', () => {
   const array = [[3, 2019, 423, 'science', 1], [25, 2019, 503, 'all', 17]];
   let result1 = 0;
   let result2 = [];

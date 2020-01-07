@@ -6,7 +6,7 @@ test('get the main table', () => {
   const len = $('div.fsshow.clearfix').length;
   expect(len > 0).toEqual(true);
 });
-test('get province ammount', () => {
+test('get province amount', () => {
   const len1 = $('div.fsshow.clearfix').find('.fsshowli').length;
   const len2 = $('.city').length;
   expect(len1 === len2).toEqual(true);

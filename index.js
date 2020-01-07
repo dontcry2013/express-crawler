@@ -63,8 +63,7 @@ event.on('DB data prepared', () => {
       });
     }
     console.log(result);// Get all the data (a two-dimensional array)
-    // db.dbInsert();
-    // db.dbClose();
+    db.dbInsertFractionLine();
   });
 });
 

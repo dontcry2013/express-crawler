@@ -14,6 +14,15 @@ let result = [];
 const j = 23;
 
 const event = new EventEmitter();
+
+(async () => {
+  console.log('I am reading the database, preparing the data I need');
+  const provincesPromise = db.getPromiseOfProvinces();
+  await db.handleGetPromiseOfProvinces(provincesPromise);
+  provinceMap = db.provincesMap;
+  event.emit('DB data prepared');
+})();
+
 event.on('DB data prepared', () => {
 // Get a map for recording the page number of each province.
   const localUri = [];
@@ -34,9 +43,7 @@ event.on('DB data prepared', () => {
         const page = parseInt(content.totalpage, 10);
         let cityNo;
         if (res.request.uri.query.indexOf('local=') >= 0) {
-          console.log(res.request.uri);
           const cityNoArr = res.request.uri.query.split('local=');
-          // eslint-disable-next-line prefer-destructuring
           cityNo = parseInt(cityNoArr[1], 10);
         }
         provincePageMap[cityNo] = page;
@@ -46,6 +53,7 @@ event.on('DB data prepared', () => {
   });
 
   c.queue(localUri);
+
   c.on('drain', () => {
     console.log(provincePageMap);
     // Use a loop to get data of each province.
@@ -59,12 +67,14 @@ event.on('DB data prepared', () => {
           const { $ } = res;
           result = utility.getDataOfOneTable($, result, provinceMap);
         }
+        console.log(`queueSize: ${dataCrawler.queueSize}`);
         done();
       },
     });
     dataCrawler.on('drain', () => {
       console.log(result);
-      db.dbInsert1(result);
+      db.dbInsertScoreLevel(result);
+      event.emit('Finished');
     });
     // Divide the different pages' url into a queue
     for (let queueNumber = 0; queueNumber < Math.ceil(provincePageMap[j] / 30); queueNumber += 1) {
@@ -78,11 +88,7 @@ event.on('DB data prepared', () => {
   });
 });
 
-(async () => {
-  console.log('I am reading the database, preparing the data I need');
-  const provincesPromise = db.getPromiseOfProvinces();
-  await db.handleGetPromiseOfProvinces(provincesPromise);
-  provinceMap = db.provincesMap;
-  // console.log(levelMap);
-  event.emit('DB data prepared');
-})();
+event.on('Finished', () => {
+  console.log('Job finished.');
+  // process.exit();
+});
