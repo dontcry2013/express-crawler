@@ -102,10 +102,10 @@ class Utility {
     if (typeof (tdValue) !== 'string') {
       return 0;
     }
-    const test = 1;
     if (tdValue !== '-' && tdValue !== '' && tdValue !== ' ' && /点击查看/.test(tdValue) === false) {
       return (this.pushDataIntoArray(judgeDivision, provinceID, year, level, iii, tdValue, result));
-    } return test;
+    }
+    return 1;
   }
 
   // Divide art and science to the score level website

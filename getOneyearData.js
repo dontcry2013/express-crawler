@@ -52,9 +52,18 @@ event.on('DB data prepared', () => {
       });
     });
     console.log(result);// Get all the data (a two-dimensional array)
-    db.dbInsertFractionLine();
+    db.dbInsertFractionLine(result, () => {
+      db.dbClose();
+      event.emit('Finished');
+    });
   });
 });
+
+event.on('Finished', () => {
+  console.log('Job finished.');
+  process.exit();
+});
+
 
 // Get the levelMap and provinceMap from data base.
 (async () => {

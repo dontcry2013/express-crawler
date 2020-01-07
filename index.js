@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-loop-func */
-/* eslint-disable linebreak-style */
 const path = require('path');
 
 global.appRoot = path.resolve(__dirname);
@@ -36,7 +34,7 @@ event.on('DB data prepared', () => {
         let provinceID = 0;
         provinceID = utility.getProvinceId($(v).find('.city').text(), provinceMap);
         const year = utility.getYear($, j);
-        const trs = $(v).find(`div.tline > div:nth-child(${j})>table .tr-cont`);
+        const trs = $(v).find(`div.tline > div:nth-child(${j}) > table .tr-cont`);
         // Get all trs for one of the six tables
         let level;
         trs.each((_ii, vv) => { // Layer 3 loop through (except header) tr(each line)
@@ -54,7 +52,6 @@ event.on('DB data prepared', () => {
             }
             if (iii > 0) {
               // If it is not zero, all the obtained data are sequentially inserted into an array
-              // eslint-disable-next-line prefer-const
               utility.getFilterData(judgeDivision, provinceID, year, level, iii, tdValue, result);
               // In this function we'll get a array called result to record all the information
             }
@@ -62,10 +59,19 @@ event.on('DB data prepared', () => {
         });
       });
     }
-    console.log(result);// Get all the data (a two-dimensional array)
-    db.dbInsertFractionLine();
+    console.log(JSON.stringify(result));// Get all the data (a two-dimensional array)
+    db.dbInsertFractionLine(result, () => {
+      db.dbClose();
+      event.emit('Finished');
+    });
   });
 });
+
+event.on('Finished', () => {
+  console.log('Job finished.');
+  process.exit();
+});
+
 
 // Get the levelMap and provinceMap from data base.
 (async () => {
@@ -79,5 +85,3 @@ event.on('DB data prepared', () => {
   // console.log(levelMap);
   event.emit('DB data prepared');
 })();
-
-// process.exit()

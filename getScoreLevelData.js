@@ -73,8 +73,10 @@ event.on('DB data prepared', () => {
     });
     dataCrawler.on('drain', () => {
       console.log(result);
-      db.dbInsertScoreLevel(result);
-      event.emit('Finished');
+      db.dbInsertScoreLevel(result, () => {
+        db.dbClose();
+        event.emit('Finished');
+      });
     });
     // Divide the different pages' url into a queue
     for (let queueNumber = 0; queueNumber < Math.ceil(provincePageMap[j] / 30); queueNumber += 1) {
@@ -84,11 +86,12 @@ event.on('DB data prepared', () => {
         Urls.push(`http://kaoshi.edu.sina.com.cn/college/scorelist?tab=file&wl=&local=${j}&page=${l}`);
       }
       dataCrawler.queue(Urls);
+      break;
     }
   });
 });
 
 event.on('Finished', () => {
   console.log('Job finished.');
-  // process.exit();
+  process.exit();
 });

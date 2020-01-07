@@ -49,11 +49,10 @@ class DatabaseUtility {
   }
 
 
-  dbInsertFractionLine(data, err) {
+  dbInsertFractionLine(values, cb, err) {
     const self = this;
     if (err) throw err;
     console.log('Connected!');
-    const values = data;
     const sql = 'INSERT INTO ncee_fraction_lines(province_id,year,score,art_science_division,level) VALUES ?';
 
     self.connection.query(sql, [values], (connectionError) => {
@@ -62,14 +61,16 @@ class DatabaseUtility {
         return;
       }
       console.log('INSERT SUCCESS');
+      if (cb) {
+        cb();
+      }
     });
   }
 
-  dbInsertScoreLevel(data, err) {
+  dbInsertScoreLevel(values, cb, err) {
     const self = this;
     if (err) throw err;
     console.log('Connected!');
-    const values = data;
     const sql = 'INSERT INTO score_level(year,province,art_science_division,score_level,number_of_student,rank) VALUES ?';
     self.connection.query(sql, [values], (connectionError) => {
       if (connectionError) {
@@ -77,6 +78,9 @@ class DatabaseUtility {
         return;
       }
       console.log('INSERT SUCCESS');
+      if (cb) {
+        cb();
+      }
     });
   }
 
